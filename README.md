@@ -1,2 +1,9 @@
-# angular-juno-dapp
-Demo Dapp with focus on Juno authentication features
+# Dapp VS App
+
+Comparison of authentication and authorization implementation for Web 3.0 Dapp and Web 2.0. App.
+
+Javascript framework of choice is Angular.
+
+Authz and Authn IAM/DID systems:
+  - App -> [KeyCloack](https://www.keycloak.org/)
+  - Dapp -> [Juno](https://juno.build/)
