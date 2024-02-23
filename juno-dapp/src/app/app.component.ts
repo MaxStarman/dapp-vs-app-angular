@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { initJuno } from '@junobuild/core';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+	selector: 'dapp-root',
+	templateUrl: './app.component.html',
+	styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'juno-dapp';
+	title='juno dapp'
+	async ngOnInit() {
+		await initJuno({
+			satelliteId: 'cw5ba-ciaaa-aaaal-advla-cai',
+		});
+	}
 }

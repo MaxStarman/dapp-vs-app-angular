@@ -1,0 +1,15 @@
+
+<ng-container *ngIf="signedIn$ | async; else notSignedIn">
+
+	<div class="login-container">
+		<h2>Singed in</h2>
+		<button type="button" (click)="signOut()">Sign-out</button>
+	</div>
+
+</ng-container>
+
+<ng-template #notSignedIn>
+	<button type="button" (click)="signIn()">
+		Sign-in
+	</button>
+</ng-template>
