@@ -1,9 +1,11 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {FormsModule} from '@angular/forms'; // Import FormsModule for ngModel
+
 import {AppComponent} from './app.component';
-import {AppRoutingModule} from "./app-routing.module";
-import {LoginComponent} from "./components/login/login.component";
+import {LoginComponent} from './components/login/login.component';
+import {CommonModule} from "@angular/common";
+import {FormsModule} from "@angular/forms";
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
 	declarations: [
@@ -11,9 +13,10 @@ import {LoginComponent} from "./components/login/login.component";
 		LoginComponent
 	],
 	imports: [
+		CommonModule,
 		BrowserModule,
 		FormsModule,
-		AppRoutingModule
+		NgbModule
 	],
 	providers: [],
 	bootstrap: [AppComponent]

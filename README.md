@@ -5,5 +5,5 @@ Comparison of authentication and authorization implementation for Web 3.0 Dapp a
 Javascript framework of choice is Angular.
 
 Authz and Authn IAM/DID systems:
-  - App -> [KeyCloack](https://www.keycloak.org/)
+  - App -> [Firebase](https://firebase.google.com/)
   - Dapp -> [Juno](https://juno.build/)

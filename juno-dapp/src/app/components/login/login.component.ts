@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {AuthService} from "../../services/auth.service";
-import { signIn, signOut } from '@junobuild/core';
+import {signIn, signOut} from '@junobuild/core';
 
 
 @Component({
@@ -10,6 +10,11 @@ import { signIn, signOut } from '@junobuild/core';
 })
 export class LoginComponent {
 
+	user = {
+		username: '',
+		email: '',
+	}
+
 	readonly signedIn$ = this.authService.signedIn$;
 
 	readonly signOut = signOut;
@@ -17,15 +22,14 @@ export class LoginComponent {
 
 	constructor(
 		@Inject(AuthService) private authService: AuthService,
-	) {}
+	) {
+	}
 
 
-	username: string = '';
-	password: string = '';
-
-	onSubmit() {
-		// You can add your authentication logic here
-		console.log('Username:', this.username);
-		console.log('Password:', this.password);
+	formSubmission() {
+		console.log(this.user)
+		this.signIn()
+		this.user.username = ''
+		this.user.email = ''
 	}
 }

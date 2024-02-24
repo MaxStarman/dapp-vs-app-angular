@@ -8,6 +8,7 @@ import { map, Observable } from 'rxjs';
 export class AuthService {
 	readonly user$: Observable<User | null> = new Observable((observer) =>
 		authSubscribe((user) => {
+			console.log('authser', user)
 			observer.next(user)
 		})
 	);

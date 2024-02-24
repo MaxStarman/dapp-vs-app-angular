@@ -7,7 +7,8 @@ import { initJuno } from '@junobuild/core';
 	styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-	title='juno dapp'
+	title='juno dapp';
+
 	async ngOnInit() {
 		await initJuno({
 			satelliteId: 'cw5ba-ciaaa-aaaal-advla-cai',
