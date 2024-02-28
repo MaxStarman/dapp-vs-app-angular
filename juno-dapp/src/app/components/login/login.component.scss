@@ -1,19 +1,23 @@
+@import "../../../variables.scss";
+
+input, button {
+	margin-bottom: 1rem;
+}
+
 .login-container {
-	max-width: 300px;
-	margin: 0 auto;
+	width: 300px;
 	padding: 20px;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-	background-color: #f9f9f9;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	background-color: $secondary-color;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
 	h2 {
 		margin-bottom: 20px;
-		text-align: center;
+		font-size: 1.5rem;
 	}
 
 	.form-group {
-		margin-bottom: 15px;
+		margin-bottom: 20px;
 
 		label {
 			display: block;
@@ -23,30 +27,23 @@
 		input {
 			width: 100%;
 			padding: 8px;
-			font-size: 16px;
-			border-radius: 5px;
+			border-radius: 4px;
 			border: 1px solid #ccc;
 		}
 	}
 
 	button {
-		display: block;
 		width: 100%;
 		padding: 10px;
-		font-size: 16px;
+		background-color: $primary-color;
+		color: $secondary-color;
 		border: none;
-		border-radius: 5px;
-		background-color: #007bff;
-		color: #fff;
+		border-radius: 4px;
 		cursor: pointer;
-		transition: background-color 0.3s;
+		transition: background-color 0.3s ease;
 
 		&:hover {
-			background-color: #0056b3;
+			background-color:$btn-hover-color;
 		}
 	}
-}
-
-input, button {
-	margin-bottom: 1rem;
 }
