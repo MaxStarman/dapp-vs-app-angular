@@ -1,6 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import {AuthService} from "../../services/auth.service";
 import {signIn, signOut} from '@junobuild/core';
+import {User} from "../../classes/user";
 
 
 @Component({
@@ -15,6 +16,8 @@ export class LoginComponent {
 		email: '',
 	}
 
+	model?: User;
+
 	readonly signedIn$ = this.authService.signedIn$;
 
 	readonly signOut = signOut;
@@ -26,10 +29,29 @@ export class LoginComponent {
 	}
 
 
-	formSubmission() {
-		console.log(this.user)
-		this.signIn()
-		this.user.username = ''
-		this.user.email = ''
+	signInSubmit() {
+
+		this.signIn().then(value => {
+			try {
+
+				this.model = new User(
+					this.authService.userId!,
+					this.user.username,
+					this.user.email,
+					true
+				)
+			} catch (error) {
+				console.log('Something went wrong! ', error);
+			}
+			console.log(this.model)
+		})
+
+	}
+
+	singOutSubmit() {
+		this.signOut().then(value => {
+			this.user.username = '';
+			this.user.email = '';
+		})
 	}
 }
