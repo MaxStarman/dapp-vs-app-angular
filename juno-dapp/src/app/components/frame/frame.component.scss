@@ -1,0 +1,32 @@
+@import "../../../variables";
+@import "../../../styles";
+
+.landing-page {
+	background-color: $primary-color;
+	color: $secondary-color;
+	margin-bottom: 2rem;
+	padding-top: 5px;
+
+	.header {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		margin: 0 30px;
+
+		h1 {
+			font-size: 2rem;
+		}
+
+		i {
+			font-size: xx-large;
+			margin-right: 1rem;
+		}
+
+		button {
+			&:hover {
+				background-color: $primary-color;
+			}
+		}
+	}
+}

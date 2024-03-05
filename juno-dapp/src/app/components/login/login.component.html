@@ -1,51 +1,75 @@
-<ng-container
-	*ngIf="signedIn$ | async; else notSignedIn"
->
+<div class="container d-flex justify-content-center">
+	<ng-container
+		*ngIf="signedIn$ | async; else notSignedIn"
+	>
 
-	<div class="login-container">
-		<h2>Welcome to my page!</h2>
-		<p>You are singed in as a User.</p>
-		<button (click)="singOutSubmit()" type="button">Sign-out</button>
-	</div>
+		<h2>Welcome to my page user {{userID}}!</h2>
+		<div class="login-container">
+			<p>You are singed in as a User.</p>
+			<button (click)="singOutSubmit()" type="button">Sign-out</button>
+		</div>
 
-</ng-container>
+	</ng-container>
 
-<ng-template #notSignedIn>
+	<ng-template #notSignedIn>
 
-	<div class="login-container">
-		<form
-			#loginForm="ngForm"
-			(ngSubmit)="signInSubmit()"
-			class="sign-in-form"
-		>
-			<h2>Sign In</h2>
-			<div class="form-group">
-				<label for="username">Username: (*)</label>
-				<input [(ngModel)]="user.username"
-					   class="form-control"
-					   id="username"
-					   name="username"
-					   required
-					   type="text"
-				>
-			</div>
-			<div class="form-group">
-				<label for="email">Email:</label>
-				<input [(ngModel)]="user.email"
-					   class="form-control"
-					   id="email"
-					   name="email"
-					   type="email"
-				>
-			</div>
-			<button
-				[disabled]="!loginForm.control.valid"
-				class="btn btn-primary"
-				type="submit"
+<!--		TODO polepsaj z angular mat in dodaj validacijo-->
+		<div class="login-container">
+			<form
+				#loginForm="ngForm"
+				(ngSubmit)="signInSubmit()"
+				class="sign-in-form"
 			>
-				Sign In
-			</button>
-		</form>
-	</div>
+				<h2>Sign In</h2>
+				<div class="form-group">
+					<label for="username">Username: (*)</label>
+					<input [(ngModel)]="user.username"
+						   class="form-control"
+						   id="username"
+						   name="username"
+						   required
+						   type="text"
+					>
+				</div>
+				<div class="form-group">
+					<label for="firstName">First name:</label>
+					<input [(ngModel)]="user.firstName"
+						   class="form-control"
+						   id="firstName"
+						   name="firstName"
+						   type="text"
+					>
+				</div>
+				<div class="form-group">
+					<label for="lastName">Last name:</label>
+					<input [(ngModel)]="user.lastName"
+						   class="form-control"
+						   id="lastName"
+						   name="lastName"
+						   type="text"
+					>
+				</div>
+				<div class="form-group">
+					<label for="email">Email:</label>
+					<input [(ngModel)]="user.email"
+						   class="form-control"
+						   id="email"
+						   name="email"
+						   type="email"
+					>
+				</div>
+				<button
+					[disabled]="!loginForm.control.valid"
+					class=""
+					type="submit"
+				>
+					Sign In
+				</button>
+			</form>
+		</div>
 
-</ng-template>
+	</ng-template>
+
+</div>
+
+

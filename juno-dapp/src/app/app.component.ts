@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { initJuno } from '@junobuild/core';
+import {Component} from '@angular/core';
+import {initJuno} from '@junobuild/core';
 
 @Component({
 	selector: 'dapp-root',
@@ -7,7 +7,6 @@ import { initJuno } from '@junobuild/core';
 	styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-	title='juno dapp';
 
 	async ngOnInit() {
 		await initJuno({

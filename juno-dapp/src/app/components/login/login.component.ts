@@ -5,7 +5,7 @@ import {User} from "../../classes/user";
 
 
 @Component({
-	selector: 'login',
+	selector: 'app-login',
 	templateUrl: './login.component.html',
 	styleUrls: ['./login.component.scss']
 })
@@ -13,9 +13,12 @@ export class LoginComponent {
 
 	user = {
 		username: '',
+		firstName: '',
+		lastName: '',
 		email: '',
 	}
 
+	userID: String = '';
 	model?: User;
 
 	readonly signedIn$ = this.authService.signedIn$;
@@ -33,10 +36,12 @@ export class LoginComponent {
 
 		this.signIn().then(value => {
 			try {
-
+				this.userID = this.authService.userId!
 				this.model = new User(
-					this.authService.userId!,
+					this.userID,
 					this.user.username,
+					this.user.firstName,
+					this.user.lastName,
 					this.user.email,
 					true
 				)
@@ -51,6 +56,8 @@ export class LoginComponent {
 	singOutSubmit() {
 		this.signOut().then(value => {
 			this.user.username = '';
+			this.user.firstName = '';
+			this.user.lastName= '';
 			this.user.email = '';
 		})
 	}

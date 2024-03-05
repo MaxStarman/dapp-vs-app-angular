@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {authSubscribe, User, UserData} from '@junobuild/core';
+import {authSubscribe, User} from '@junobuild/core';
 import {map, Observable} from 'rxjs';
 
 @Injectable({
@@ -15,13 +15,13 @@ export class AuthService {
 
 	readonly user$: Observable<User | null> = new Observable((observer) =>
 		authSubscribe((user) => {
-			console.log('authUser', user)
 			observer.next(user)
 			this._userId = user?.owner
 
 		})
 	);
 
+	// TODO prasaj ChatGPT kako subscribat temu elementu v komponenti
 	readonly signedIn$: Observable<boolean> = this.user$
 		.pipe(
 			map((user) => user !== null)
