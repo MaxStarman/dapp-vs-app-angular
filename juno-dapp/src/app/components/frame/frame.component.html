@@ -4,12 +4,14 @@
 			<i class="fa-brands fa-blogger-b"></i>
 			<h1>Juno dBlog</h1>
 		</div>
-<!--		TODO najdet pogoj za prikazat gumb samo ko si prijavljen-->
-		<button (click)="klik()"
-				*ngIf="true"
-				type="button"
+		<a *ngIf="signedIn$ | async"
+		   routerLink="/home"
 		>
-			Sign Out
-		</button>
+			<button (click)="signOut()"
+					type="button"
+			>
+				Sign Out
+			</button>
+		</a>
 	</header>
 </div>

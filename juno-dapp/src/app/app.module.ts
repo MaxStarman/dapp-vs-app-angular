@@ -1,20 +1,23 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { AppComponent } from './app.component';
-import { LoginComponent } from './components/login/login.component';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { RouterLink, RouterOutlet } from '@angular/router';
-import { BlogComponent } from './components/blog/blog.component';
-import { DisplayContentComponent } from './components/display-content/display-content.component';
-import { FrameComponent } from './components/frame/frame.component';
-import { HomeComponent } from './components/home/home.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppRoutingModule } from './app-routing.module';
-import { MatIconModule } from '@angular/material/icon';
-import { SharedModule } from './shared/shared.module';
-import { MatTabsModule } from '@angular/material/tabs';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {AppComponent} from './app.component';
+import {LoginComponent} from './components/login/login.component';
+import {CommonModule} from '@angular/common';
+import {ReactiveFormsModule} from '@angular/forms';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {RouterLink, RouterOutlet} from '@angular/router';
+import {BlogComponent} from './components/blog/blog.component';
+import {DisplayContentComponent} from './components/display-content/display-content.component';
+import {FrameComponent} from './components/frame/frame.component';
+import {HomeComponent} from './components/home/home.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {AppRoutingModule} from './app-routing.module';
+import {MatIconModule} from '@angular/material/icon';
+import {SharedModule} from './shared/shared.module';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
 	declarations: [
@@ -28,7 +31,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 	imports: [
 		CommonModule,
 		BrowserModule,
-		FormsModule,
+		ReactiveFormsModule,
 		NgbModule,
 		RouterOutlet,
 		RouterLink,
@@ -36,9 +39,12 @@ import { MatTabsModule } from '@angular/material/tabs';
 		AppRoutingModule,
 		MatIconModule,
 		SharedModule,
-		MatTabsModule
+		MatTabsModule,
+		MatFormFieldModule,
+		MatInputModule,
+		MatCardModule
 	],
-	providers: [],
+	providers: [{provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}],
 	bootstrap: [AppComponent]
 })
 export class AppModule {

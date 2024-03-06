@@ -1,8 +1,9 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {AuthService} from "../../services/auth.service";
 import {signIn, signOut} from '@junobuild/core';
-import {User} from "../../classes/user";
-import { SubsComponent } from '../../shared/pattern/subs.component';
+import {User} from "../../models/user";
+import {Router} from "@angular/router";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 
 @Component({
@@ -10,17 +11,10 @@ import { SubsComponent } from '../../shared/pattern/subs.component';
 	templateUrl: './login.component.html',
 	styleUrls: ['./login.component.scss']
 })
-export class LoginComponent extends SubsComponent{
+export class LoginComponent implements OnInit {
 
-	user = {
-		username: '',
-		firstName: '',
-		lastName: '',
-		email: '',
-	}
-
-	userID: String = '';
-	model?: User;
+	userLoginForm!: FormGroup
+	userModel = new User('', '', '', '', '');
 
 	readonly signedIn$ = this.authService.signedIn$;
 
@@ -29,38 +23,41 @@ export class LoginComponent extends SubsComponent{
 
 	constructor(
 		@Inject(AuthService) private authService: AuthService,
+		private router: Router,
+		private fb: FormBuilder
 	) {
-		super();
 	}
 
+	ngOnInit() {
+		this.setFormControls()
+	}
 
-	signInSubmit() {
+	// TODO login gumb, kjer se lahko prijavi uporabnik ki je ze reg
 
+	submit() {
+		this.userModel = this.userLoginForm.value;
+		console.log(this.userModel);
 		this.signIn().then(value => {
 			try {
-				this.userID = this.authService.userId!
-				this.model = new User(
-					this.userID,
-					this.user.username,
-					this.user.firstName,
-					this.user.lastName,
-					this.user.email,
-					true
-				)
+				this.userModel.id = this.authService.userId!
+				// this.saveUserToDatastore()
+				this.router?.navigate(['/blog']);
 			} catch (error) {
 				console.log('Something went wrong! ', error);
 			}
-			console.log(this.model)
 		})
+	}
+
+	saveUserToDatastore() {
 
 	}
 
-	singOutSubmit() {
-		this.signOut().then(value => {
-			this.user.username = '';
-			this.user.firstName = '';
-			this.user.lastName= '';
-			this.user.email = '';
-		})
+	private setFormControls() {
+		this.userLoginForm = this.fb.group({
+			username: [this.userModel.username, Validators.required],
+			firstName: [this.userModel.firstName],
+			lastName: [this.userModel.lastName],
+			email: [this.userModel.email, [Validators.email]],
+		});
 	}
 }

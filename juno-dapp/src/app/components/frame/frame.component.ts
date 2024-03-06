@@ -11,13 +11,8 @@ export class FrameComponent {
 
 
 	readonly signOut = signOut;
-	readonly signedIn$ = this.authService.signedIn$.subscribe(isSignedIn => isSignedIn);
+	readonly signedIn$ = this.authService.signedIn$;
 
 	constructor(@Inject(AuthService) private authService: AuthService) {
 	}
-
-	klik(){
-
-	}
-
 }
