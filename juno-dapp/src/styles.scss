@@ -14,22 +14,3 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 
-button {
-	padding: 10px;
-	background-color: $primary-color;
-	color: $secondary-color;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-	transition: background-color 0.3s ease;
-
-	&:hover {
-		background-color:$btn-hover-color;
-	}
-	&:disabled {
-		pointer-events: none;
-		background-color: $btn-disabled-color;
-		opacity: 0.65 ;
-	}
-}
-

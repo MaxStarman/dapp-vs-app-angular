@@ -1,0 +1,18 @@
+<div class="container">
+    <h1>
+        You are logged in as
+        <!--        <span *ngIf="user.admin">admin</span>-->
+        <!--        <span *ngIf="!user.admin">user</span>-->
+        <!--        {{user.id}}.-->
+    </h1>
+</div>
+
+<div class="container">
+    <app-button
+        (click)="addDocument()"
+    >
+        Add image
+    </app-button>
+</div>
+
+<display-content></display-content>

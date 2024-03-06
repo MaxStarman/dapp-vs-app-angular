@@ -58,13 +58,17 @@
 						   type="email"
 					>
 				</div>
-				<button
-					[disabled]="!loginForm.control.valid"
-					class=""
-					type="submit"
-				>
-					Sign In
-				</button>
+<!--				<button-->
+<!--					[disabled]="!loginForm.control.valid"-->
+<!--					type="submit"-->
+<!--				>-->
+<!--					Sign In-->
+<!--				</button>-->
+				<app-button
+					[type]="'submit'"
+					[disabled] = "!loginForm.control.valid"
+					> Sing In
+				</app-button>
 			</form>
 		</div>
 

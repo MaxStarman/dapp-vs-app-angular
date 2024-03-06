@@ -2,6 +2,7 @@ import {Component, Inject} from '@angular/core';
 import {AuthService} from "../../services/auth.service";
 import {signIn, signOut} from '@junobuild/core';
 import {User} from "../../classes/user";
+import { SubsComponent } from '../../shared/pattern/subs.component';
 
 
 @Component({
@@ -9,7 +10,7 @@ import {User} from "../../classes/user";
 	templateUrl: './login.component.html',
 	styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent extends SubsComponent{
 
 	user = {
 		username: '',
@@ -29,6 +30,7 @@ export class LoginComponent {
 	constructor(
 		@Inject(AuthService) private authService: AuthService,
 	) {
+		super();
 	}
 
 

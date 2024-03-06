@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
 import {authSubscribe, User} from '@junobuild/core';
 import {map, Observable} from 'rxjs';
+import { SubsComponent } from '../shared/pattern/subs.component';
 
 @Injectable({
 	providedIn: 'root',
 })
-export class AuthService {
+export class AuthService extends SubsComponent{
 
 	private _userId?: String;
 
@@ -17,7 +18,6 @@ export class AuthService {
 		authSubscribe((user) => {
 			observer.next(user)
 			this._userId = user?.owner
-
 		})
 	);
 
