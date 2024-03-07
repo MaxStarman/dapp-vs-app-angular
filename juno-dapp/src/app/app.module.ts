@@ -22,6 +22,7 @@ import {UploadModalComponent} from './components/blog/upload-modal/upload-modal/
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatButtonModule} from "@angular/material/button";
+import {MatTableModule} from "@angular/material/table";
 
 @NgModule({
 	declarations: [
@@ -51,6 +52,7 @@ import {MatButtonModule} from "@angular/material/button";
 		MatDialogModule,
 		MatSnackBarModule,
 		MatButtonModule,
+		MatTableModule
 
 	],
 	providers: [{provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}],

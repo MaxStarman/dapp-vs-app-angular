@@ -23,7 +23,7 @@ export class DocService {
 
 			return from(
 				listDocs<Entry>({
-					collection: 'notes',
+					collection: 'img_descriptions',
 					filter: {},
 				})
 			).pipe(map(({items}) => items));

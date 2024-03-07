@@ -5,14 +5,41 @@
             <mat-tab label="My">
                 <!--    <div *ngFor="">-->
                 <div class="container mt-3 mb-3">
-                    <img alt="image" src="">
-                    <app-button
-                        (click)="deleteImg()"
-                        classList="float-end"
-                    >
-                        <i class="fa-solid fa-trash-can"></i>
-                    </app-button>
-                </div>
+					<table [dataSource]="(docs$ | async)!" mat-table>
+						<ng-container matColumnDef="key">
+							<th *matHeaderCellDef mat-header-cell>Key</th>
+							<td *matCellDef="let doc" mat-cell>{{ doc.key }}</td>
+						</ng-container>
+
+						<ng-container matColumnDef="text">
+							<th *matHeaderCellDef mat-header-cell>Text</th>
+							<td *matCellDef="let doc" mat-cell>{{ doc.data.text }}</td>
+						</ng-container>
+
+						<ng-container matColumnDef="url">
+							<th *matHeaderCellDef mat-header-cell>Url</th>
+							<td *matCellDef="let doc" mat-cell>
+								<a
+									*ngIf="doc.data.url !== undefined"
+									[href]="doc.data.url"
+									aria-label="Open data"
+									rel="noopener noreferrer"
+									target="_blank"
+								>
+									<mat-icon
+										aria-hidden="false"
+										aria-label="Example home icon"
+										fontIcon="open_in_new"
+									></mat-icon>
+								</a>
+							</td>
+						</ng-container>
+
+						<tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+						<tr *matRowDef="let doc; columns: displayedColumns" mat-row></tr>
+					</table>
+
+				</div>
                 <!--    </div>-->
             </mat-tab>
             <mat-tab label="All">
