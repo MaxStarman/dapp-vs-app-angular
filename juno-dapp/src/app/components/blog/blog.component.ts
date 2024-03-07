@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {UploadModalComponent} from "./upload-modal/upload-modal/upload-modal.component";
+import {UploadModalComponent} from "./upload-modal/upload-modal.component";
 import {MatDialog} from "@angular/material/dialog";
 import {DocService} from "../../services/doc.service";
 import {take} from "rxjs";

@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 import {User} from "@junobuild/core";
-import {AuthService} from "../../../../services/auth.service";
+import {AuthService} from "../../../services/auth.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {FormBuilder} from "@angular/forms";
 import {catchError, filter, from, NEVER, switchMap, take} from "rxjs";
-import {DocService} from "../../../../services/doc.service";
+import {DocService} from "../../../services/doc.service";
 import {MatDialogRef} from "@angular/material/dialog";
 
 @Component({

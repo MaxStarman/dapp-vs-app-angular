@@ -7,6 +7,7 @@
 			<textarea formControlName="entry" matInput rows="1"></textarea>
 		</mat-form-field>
 		<input (change)="onFileChanged($event)"
+			   [disabled]="uploadForm.disabled"
 			   accept="image/png, image/gif, image/jpeg"
 			   type="file">
 	</form>
@@ -27,3 +28,5 @@
 	</app-button>
 
 </mat-dialog-actions>
+
+<!--TODO dodaj spinner ko se loada-->
