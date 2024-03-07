@@ -3,13 +3,13 @@
         You are logged in as
         <!--        <span *ngIf="user.admin">admin</span>-->
         <!--        <span *ngIf="!user.admin">user</span>-->
-        <!--        {{user.id}}.-->
+		<!--                {{user.id}}.-->
     </h1>
 </div>
 
 <div class="container">
     <app-button
-        (click)="addDocument()"
+		(click)="openModal()"
     >
         Add image
     </app-button>

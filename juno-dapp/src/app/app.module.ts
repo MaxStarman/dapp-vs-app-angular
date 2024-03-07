@@ -18,6 +18,10 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatCardModule} from "@angular/material/card";
+import {UploadModalComponent} from './components/blog/upload-modal/upload-modal/upload-modal.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
 	declarations: [
@@ -26,7 +30,8 @@ import {MatCardModule} from "@angular/material/card";
 		BlogComponent,
 		DisplayContentComponent,
 		FrameComponent,
-		HomeComponent
+		HomeComponent,
+		UploadModalComponent
 	],
 	imports: [
 		CommonModule,
@@ -42,7 +47,11 @@ import {MatCardModule} from "@angular/material/card";
 		MatTabsModule,
 		MatFormFieldModule,
 		MatInputModule,
-		MatCardModule
+		MatCardModule,
+		MatDialogModule,
+		MatSnackBarModule,
+		MatButtonModule,
+
 	],
 	providers: [{provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}],
 	bootstrap: [AppComponent]
