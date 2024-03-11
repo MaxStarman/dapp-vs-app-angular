@@ -5,9 +5,9 @@
 			<mat-tab label="My">
 				<div class="container mt-3 mb-3">
 					<table [dataSource]="(myDocs$ | async)!" mat-table>
-						<ng-container matColumnDef="key">
-							<th *matHeaderCellDef mat-header-cell>Key</th>
-							<td *matCellDef="let doc" mat-cell>{{ doc.key }}</td>
+						<ng-container matColumnDef="creator">
+							<th *matHeaderCellDef mat-header-cell>Creator</th>
+							<td *matCellDef="let doc" mat-cell>{{ doc.data.creator }}</td>
 						</ng-container>
 
 						<ng-container matColumnDef="text">
@@ -53,9 +53,9 @@
 			<mat-tab label="All">
 				<div class="container mt-3 mb-3">
 					<table [dataSource]="(allDocs$ | async)!" mat-table>
-						<ng-container matColumnDef="key">
-							<th *matHeaderCellDef mat-header-cell>Key</th>
-							<td *matCellDef="let doc" mat-cell>{{ doc.key }}</td>
+						<ng-container matColumnDef="creator">
+							<th *matHeaderCellDef mat-header-cell>Creator</th>
+							<td *matCellDef="let doc" mat-cell>{{ doc.data.creator }}</td>
 						</ng-container>
 
 						<ng-container matColumnDef="text">

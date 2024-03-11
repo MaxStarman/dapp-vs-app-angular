@@ -1,8 +1,8 @@
 import {Component, Inject} from '@angular/core';
-import {Entry} from "../../models/entry";
+import {Entry} from "../../../models/entry";
 import {Doc} from "@junobuild/core";
 import {Observable} from "rxjs";
-import {DocService} from "../../services/doc.service";
+import {DocService} from "../../../services/doc.service";
 
 @Component({
 	selector: 'display-content',
@@ -11,7 +11,7 @@ import {DocService} from "../../services/doc.service";
 })
 export class DisplayContentComponent {
 
-	readonly displayedColumns: string[] = ['key', 'text', 'url'];
+	readonly displayedColumns: string[] = ['creator', 'text', 'url'];
 
 	readonly allDocs$: Observable<Doc<Entry>[]> = this.docService.allDocs$;
 

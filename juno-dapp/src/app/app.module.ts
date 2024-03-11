@@ -7,7 +7,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {RouterLink, RouterOutlet} from '@angular/router';
 import {BlogComponent} from './components/blog/blog.component';
-import {DisplayContentComponent} from './components/display-content/display-content.component';
+import {DisplayContentComponent} from './components/blog/display-content/display-content.component';
 import {FrameComponent} from './components/frame/frame.component';
 import {HomeComponent} from './components/home/home.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -23,6 +23,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatButtonModule} from "@angular/material/button";
 import {MatTableModule} from "@angular/material/table";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
 	declarations: [
@@ -52,7 +53,8 @@ import {MatTableModule} from "@angular/material/table";
 		MatDialogModule,
 		MatSnackBarModule,
 		MatButtonModule,
-		MatTableModule
+		MatTableModule,
+		MatProgressSpinnerModule
 
 	],
 	providers: [{provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}],

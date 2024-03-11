@@ -29,13 +29,13 @@ export class UploadModalComponent {
 	) {
 	}
 
-
+// TODO get username from session storage
 	async onSubmit() {
 		this.uploadForm.disable()
 		this.authService.user$
 			.pipe(
 				filter((user) => user !== null),
-				switchMap((user) => from(this.docService.uploadAndSet(user as User, this.file, this.uploadForm))),
+				switchMap((user) => from(this.docService.uploadAndSet(user as User, this.file, this.uploadForm, 'username'))),
 				take(1),
 				catchError((err: unknown) => {
 					console.error(err);
