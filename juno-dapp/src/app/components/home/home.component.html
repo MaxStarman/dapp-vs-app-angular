@@ -14,3 +14,14 @@
 </div>
 
 <app-login></app-login>
+<!--TODO session impl-->
+<!--*ngIf="!(singedIn$ | async)"-->
+
+<div class="container">
+	<app-button
+		(click)="navigateToBlog()"
+		*ngIf="singedIn$| async"
+	>
+		Go to blog
+	</app-button>
+</div>

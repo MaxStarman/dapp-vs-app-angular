@@ -1,9 +1,11 @@
 <div class="landing-page mb-3">
 	<header class="header">
-		<div class="d-flex">
-			<i class="fa-brands fa-blogger-b"></i>
-			<h1>Juno dBlog</h1>
-		</div>
+		<a class="home-link" routerLink="/home">
+			<div class="d-flex">
+				<i class="fa-brands fa-blogger-b"></i>
+				<h1>Juno dBlog</h1>
+			</div>
+		</a>
 		<a *ngIf="signedIn$ | async"
 		   routerLink="/home"
 		>

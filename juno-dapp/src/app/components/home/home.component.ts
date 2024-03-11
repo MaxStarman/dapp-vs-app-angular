@@ -1,4 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, Inject} from '@angular/core';
+import {AuthService} from "../../services/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
 	selector: 'app-home',
@@ -7,4 +9,13 @@ import {Component} from '@angular/core';
 })
 export class HomeComponent {
 
+	readonly singedIn$ = this.authService.signedIn$
+
+	constructor(@Inject(AuthService) private authService: AuthService,
+				private router: Router) {
+	}
+
+	navigateToBlog() {
+		this.router?.navigate(['/blog']);
+	}
 }

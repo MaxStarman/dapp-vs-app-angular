@@ -23,6 +23,11 @@
 			margin-right: 1rem;
 		}
 
+		.home-link {
+			all: inherit;
+			cursor: pointer;
+		}
+
 		button {
 			&:hover {
 				background-color: $primary-color;
