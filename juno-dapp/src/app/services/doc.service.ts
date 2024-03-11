@@ -1,6 +1,6 @@
 import {Inject, Injectable} from '@angular/core';
 import {combineLatest, from, map, Observable, of, shareReplay, startWith, Subject, switchMap} from "rxjs";
-import {Doc, listDocs, setDoc, uploadFile, User} from "@junobuild/core";
+import {deleteAsset, deleteDoc, Doc, listDocs, setDoc, uploadFile, User} from "@junobuild/core";
 import {AuthService} from "./auth.service";
 import {Entry} from "../models/entry";
 import {nanoid} from "nanoid";
@@ -10,21 +10,15 @@ import {FormGroup} from "@angular/forms";
 	providedIn: 'root'
 })
 export class DocService {
+
 	private reloadSubject = new Subject<void>();
 
-	docs$: Observable<Doc<Entry>[]> = combineLatest([
-		this.authService.user$,
-		this.reloadSubject.pipe(startWith(undefined)),
-	]).pipe(
-		switchMap(([user, _]) => {
-			if (user === null) {
-				return of([]);
-			}
-
+	allDocs$: Observable<Doc<Entry>[]> = this.reloadSubject.pipe(
+		startWith(undefined),
+		switchMap(() => {
 			return from(
 				listDocs<Entry>({
-					collection: 'img_descriptions',
-					filter: {},
+					collection: 'img_descriptions'
 				})
 			).pipe(map(({items}) => items));
 		}),
@@ -32,11 +26,39 @@ export class DocService {
 		shareReplay({bufferSize: 1, refCount: true})
 	);
 
+	// Return all documents for loged in user
+	myDocs$: Observable<Doc<Entry>[]> = combineLatest([
+		this.authService.user$,
+		this.reloadSubject.pipe(startWith(undefined)),
+	]).pipe(
+		switchMap(([user, _]) => {
+			if (user === null) {
+				return of([]);
+			}
+			return from(
+				listDocs<Entry>({
+					collection: 'img_descriptions',
+					filter: {owner: user.key}
+				})
+			).pipe(map(({items}) => items));
+		}),
+		startWith([]),
+		shareReplay({bufferSize: 1, refCount: true})
+	);
+	private inProgress$ = new Subject<boolean>()
+
+	// TODO vrni samo datoteke prijavljenega uporabnika
+	/** userDocs$: Observable<Doc<Entry>[]> = combineLatest([
+	 	this.authService.user$,
+	 	this.reloadSubject.pipe(startWith(undefined)),
+	 ]).pipe(TODO)*/
+
 	constructor(@Inject(AuthService) private readonly authService: AuthService) {
 	}
 
-	reload() {
-		this.reloadSubject.next();
+	reload(value?: any) {
+		//ts-ignore
+		this.reloadSubject.next(value);
 	}
 
 	async uploadAndSet(user: User, file: File | undefined, form: FormGroup) {
@@ -65,6 +87,26 @@ export class DocService {
 					...(url !== undefined && {url}),
 				},
 			},
+		});
+	}
+
+	// TODO finish
+	async deleteDocAndAsset(user: User, key: string, filePath: string, url: string) {
+		await deleteAsset({
+			collection: 'images',
+			fullPath: filePath
+		});
+
+
+		await deleteDoc<Entry>({
+			collection: 'img_descriptions',
+			doc: {
+				key,
+				data: {
+					text: '',
+					...({url}),
+				},
+			}
 		});
 	}
 }

@@ -1,28 +1,40 @@
 import {Injectable} from '@angular/core';
-import {authSubscribe, User} from '@junobuild/core';
+import {authSubscribe, setDoc, User} from '@junobuild/core';
 import {map, Observable} from 'rxjs';
-import {SubsComponent} from '../shared/pattern/subs.component';
+import {UserModel} from "../models/userModel";
 
 @Injectable({
 	providedIn: 'root',
 })
-export class AuthService extends SubsComponent{
-
-	private _userId?: String;
-
-	get userId() {
-		return this._userId;
-	}
+export class AuthService {
 
 	readonly user$: Observable<User | null> = new Observable((observer) =>
 		authSubscribe((user) => {
 			observer.next(user)
-			this._userId = user?.owner
 		})
 	);
-
 	readonly signedIn$: Observable<boolean> = this.user$
 		.pipe(
 			map((user) => user !== null)
 		);
+
+	get userId() {
+		let userId = '';
+		this.user$.subscribe((user) => {
+			if (user) {
+				userId = user?.key.toString()
+			}
+		})
+		return userId;
+	}
+
+	async addUser(userModel: UserModel) {
+		await setDoc<UserModel>({
+			collection: "users",
+			doc: {
+				key: userModel.id,
+				data: userModel
+			}
+		});
+	}
 }

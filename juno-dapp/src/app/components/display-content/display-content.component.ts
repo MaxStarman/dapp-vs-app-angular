@@ -13,11 +13,14 @@ export class DisplayContentComponent {
 
 	readonly displayedColumns: string[] = ['key', 'text', 'url'];
 
-	readonly docs$: Observable<Doc<Entry>[]> = this.docService.docs$;
+	readonly allDocs$: Observable<Doc<Entry>[]> = this.docService.allDocs$;
+
+	readonly myDocs$: Observable<Doc<Entry>[]> = this.docService.myDocs$;
 
 	constructor(@Inject(DocService) private readonly docService: DocService) {
 	}
 
+	// TODO navedn user rise samo svoje, admin lahko vse
 	deleteImg() {
 		alert('TODO')
 	}
