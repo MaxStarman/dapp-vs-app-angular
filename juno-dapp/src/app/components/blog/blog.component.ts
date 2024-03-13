@@ -13,6 +13,9 @@ import {take} from "rxjs";
 })
 export class BlogComponent implements OnInit {
 
+	username?: string
+	userId?: string
+
 	constructor(
 		@Inject(AuthService) private authService: AuthService,
 		@Inject(MatDialog) private dialog: MatDialog,
@@ -23,6 +26,7 @@ export class BlogComponent implements OnInit {
 
 	ngOnInit(): void {
 		// TODO get user
+		this.userId = this.authService.userId
 	}
 
 	openModal() {

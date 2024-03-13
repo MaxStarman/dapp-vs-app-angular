@@ -35,7 +35,7 @@
 									</a>
 									<!--									TODO delete btn only when loged in as ADMIN-->
 									<app-button
-										(click)="deleteImg()"
+										(click)="deleteEntry(doc)"
 										[classList]="'m-2'"
 									>
 										<i class="fa-solid fa-trash-can"></i>
@@ -81,13 +81,13 @@
 											fontIcon="open_in_new"
 										></mat-icon>
 									</a>
-									<!--									TODO delete btn only when loged in as ADMIN-->
-									<app-button
-										(click)="deleteImg()"
-										[classList]="'m-2'"
-									>
-										<i class="fa-solid fa-trash-can"></i>
-									</app-button>
+									<!--TODO delete btn only when loged in as ADMIN-->
+									<!--									<app-button-->
+									<!--										(click)="deleteEntry(doc)"-->
+									<!--										[classList]="'m-2'"-->
+									<!--									>-->
+									<!--										<i class="fa-solid fa-trash-can"></i>-->
+									<!--									</app-button>-->
 								</div>
 
 							</td>

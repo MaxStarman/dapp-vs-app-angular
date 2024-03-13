@@ -1,10 +1,11 @@
 import {Inject, Injectable} from '@angular/core';
 import {combineLatest, from, map, Observable, of, shareReplay, startWith, Subject, switchMap} from "rxjs";
-import {deleteAsset, deleteDoc, Doc, listDocs, setDoc, uploadFile, User} from "@junobuild/core";
+import {deleteDoc, Doc, getDoc, listDocs, setDoc, uploadFile, User} from "@junobuild/core";
 import {AuthService} from "./auth.service";
 import {Entry} from "../models/entry";
 import {nanoid} from "nanoid";
 import {FormGroup} from "@angular/forms";
+import {UserModel} from "../models/userModel";
 
 @Injectable({
 	providedIn: 'root'
@@ -13,6 +14,7 @@ export class DocService {
 
 	private reloadSubject = new Subject<void>();
 
+	// Return all documents in the collection
 	allDocs$: Observable<Doc<Entry>[]> = this.reloadSubject.pipe(
 		startWith(undefined),
 		switchMap(() => {
@@ -45,13 +47,9 @@ export class DocService {
 		startWith([]),
 		shareReplay({bufferSize: 1, refCount: true})
 	);
-	private inProgress$ = new Subject<boolean>()
 
-	// TODO vrni samo datoteke prijavljenega uporabnika
-	/** userDocs$: Observable<Doc<Entry>[]> = combineLatest([
-	 	this.authService.user$,
-	 	this.reloadSubject.pipe(startWith(undefined)),
-	 ]).pipe(TODO)*/
+	// TODO inProgress subject for displaying mat-spinner
+	private inProgress$ = new Subject<boolean>()
 
 	constructor(@Inject(AuthService) private readonly authService: AuthService) {
 	}
@@ -61,7 +59,7 @@ export class DocService {
 		this.reloadSubject.next(value);
 	}
 
-	async uploadAndSet(user: User, file: File | undefined, form: FormGroup) {
+	async uploadAndSetEntry(user: User, file: File | undefined, form: FormGroup, username: string) {
 		let url;
 
 		if (file !== undefined) {
@@ -83,6 +81,7 @@ export class DocService {
 			doc: {
 				key,
 				data: {
+					creator: username,
 					text: form.value.entry,
 					...(url !== undefined && {url}),
 				},
@@ -90,23 +89,36 @@ export class DocService {
 		});
 	}
 
-	// TODO finish
-	async deleteDocAndAsset(user: User, key: string, filePath: string, url: string) {
-		await deleteAsset({
-			collection: 'images',
-			fullPath: filePath
-		});
-
-
-		await deleteDoc<Entry>({
-			collection: 'img_descriptions',
+	async setUserDoc(userModel: UserModel) {
+		await setDoc<UserModel>({
+			collection: "users",
 			doc: {
-				key,
-				data: {
-					text: '',
-					...({url}),
-				},
+				key: userModel.id,
+				data: userModel
 			}
 		});
+	}
+
+	async getUserDoc(userId: string) {
+		return await getDoc<UserModel>({
+			collection: 'users',
+			key: userId
+		}).catch((err) => console.log(err))
+	}
+
+	// TODO finish
+	async deleteDocAndAsset(doc: Doc<Entry>, imgFullPath: string) {
+		await deleteDoc<Entry>({
+			collection: 'img_descriptions',
+			doc: doc
+		}).then(() => {
+			this.reload()
+		});
+
+		// TODO pobrisi sliko iz storace ce je bil izbrisan zadnji doc s to sliko -> dodaj pogoj kdaj da brise slike
+		// await deleteAsset({
+		// 	collection: 'images',
+		// 	fullPath: imgFullPath
+		// });
 	}
 }

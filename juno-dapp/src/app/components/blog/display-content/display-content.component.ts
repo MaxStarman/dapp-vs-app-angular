@@ -3,6 +3,7 @@ import {Entry} from "../../../models/entry";
 import {Doc} from "@junobuild/core";
 import {Observable} from "rxjs";
 import {DocService} from "../../../services/doc.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
 	selector: 'display-content',
@@ -17,11 +18,20 @@ export class DisplayContentComponent {
 
 	readonly myDocs$: Observable<Doc<Entry>[]> = this.docService.myDocs$;
 
-	constructor(@Inject(DocService) private readonly docService: DocService) {
+	constructor(@Inject(DocService) private readonly docService: DocService,
+				private snackBar: MatSnackBar) {
 	}
 
 	// TODO navedn user rise samo svoje, admin lahko vse
-	deleteImg() {
-		alert('TODO')
+	deleteEntry(doc: Doc<Entry>) {
+		const imageUrl = doc.data.url;
+		const imagePath = imageUrl.replace("https://cw5ba-ciaaa-aaaal-advla-cai.icp0.io", "");
+
+		this.docService.deleteDocAndAsset(doc, imagePath).then(() => {
+			this.snackBar.open('Success!', 'Dismiss', {
+				duration: 3000
+			});
+		})
+
 	}
 }

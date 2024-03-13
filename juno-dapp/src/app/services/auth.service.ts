@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
-import {authSubscribe, setDoc, User} from '@junobuild/core';
+import {authSubscribe, User} from '@junobuild/core';
 import {map, Observable} from 'rxjs';
-import {UserModel} from "../models/userModel";
 
 @Injectable({
 	providedIn: 'root',
@@ -26,15 +25,5 @@ export class AuthService {
 			}
 		})
 		return userId;
-	}
-
-	async addUser(userModel: UserModel) {
-		await setDoc<UserModel>({
-			collection: "users",
-			doc: {
-				key: userModel.id,
-				data: userModel
-			}
-		});
 	}
 }

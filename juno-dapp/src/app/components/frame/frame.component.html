@@ -9,11 +9,12 @@
 		<a *ngIf="signedIn$ | async"
 		   routerLink="/home"
 		>
-			<button (click)="signOut()"
-					type="button"
+			<app-button (click)="signOut()"
+						type="button"
+
 			>
 				Sign Out
-			</button>
+			</app-button>
 		</a>
 	</header>
 </div>

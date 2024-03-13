@@ -5,35 +5,35 @@
 			<mat-form-field>
 				<mat-label>Username</mat-label>
 				<input formControlName="username" matInput>
-				<mat-hint>For display purposes only.</mat-hint>
+				<mat-hint>For display purposes.</mat-hint>
 				<mat-error
 					*ngIf="userLoginForm.controls?.['username']?.errors && userLoginForm.controls?.['username']?.touched">
-					Please enter a valid username
-				</mat-error>
-			</mat-form-field>
-			<mat-form-field>
-				<mat-label>First name</mat-label>
-				<input formControlName="firstName" matInput>
-			</mat-form-field>
-			<mat-form-field>
-				<mat-label>Last name</mat-label>
-				<input formControlName="lastName" matInput>
-			</mat-form-field>
-			<mat-form-field>
-				<mat-label>Email</mat-label>
-				<input formControlName="email" matInput>
-				<mat-error
-					*ngIf="userLoginForm.controls?.['email']?.errors && userLoginForm.controls?.['email']?.touched">
-					Please enter a valid email
+					Please enter a correct username
 				</mat-error>
 			</mat-form-field>
 			<div>
 				<app-button
-					(click)="submit()"
+					(click)="signInII()"
+					[disabled]="userLoginForm.invalid"
+					[type]="'submit'"
+					classList="mb-2"
+				>
+					<i class="fa-solid fa-arrow-right-to-bracket"></i>
+					Sign In with INTERNET IDENTITY
+				</app-button>
+				<app-button
+					(click)="singInNFID()"
 					[disabled]="userLoginForm.invalid"
 					[type]="'submit'"
 				>
-					Sign In
+					<i class="fa-solid fa-arrow-right-to-bracket"></i>
+					Sign In with NFID
+				</app-button>
+				<app-button
+					(click)="checkUser()"
+					classList="mt-2"
+				>
+					Check user (dev)
 				</app-button>
 			</div>
 		</form>

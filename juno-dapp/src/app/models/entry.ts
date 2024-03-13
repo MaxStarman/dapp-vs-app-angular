@@ -1,4 +1,4 @@
 export interface Entry {
 	text: string;
-	url?: string;
+	url: string;
 }
