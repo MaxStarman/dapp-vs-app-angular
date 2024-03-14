@@ -106,16 +106,24 @@ export class DocService {
 		}).catch((err) => console.log(err))
 	}
 
-	async deleteDocAndAsset(doc: Doc<Entry>, imgFullPath: string) {
+	async deleteDocAndAsset(doc: Doc<Entry>, imgFullPath: string, admin: boolean) {
 		await deleteDoc<Entry>({
 			collection: 'img_descriptions',
 			doc: doc
 		}).then(() => {
-			this.checkIfLastImagesInDocs(imgFullPath).subscribe(deleteImg => {
-				if (deleteImg) {
-					this.deleteImageFromStorage(imgFullPath)
-				}
-			})
+			if (admin) {
+				this.checkIfLastImagesInAllDocs(imgFullPath).subscribe(deleteImg => {
+					if (deleteImg) {
+						this.deleteImageFromStorage(imgFullPath)
+					}
+				})
+			} else {
+				this.checkIfLastImagesInMyDocs(imgFullPath).subscribe(deleteImg => {
+					if (deleteImg) {
+						this.deleteImageFromStorage(imgFullPath)
+					}
+				})
+			}
 			this.reload()
 		});
 
@@ -133,9 +141,25 @@ export class DocService {
 	 * @param imgUrl
 	 * @private
 	 */
-	private checkIfLastImagesInDocs(imgUrl: string) {
+	private checkIfLastImagesInMyDocs(imgUrl: string) {
 		let count = 0;
 		return this.myDocs$.pipe(
+			take(1),
+			map(docs => {
+				for (const doc of docs) {
+					if (doc.data.url && doc.data.url.endsWith(imgUrl)) {
+						count++;
+					}
+				}
+				return count === 1;
+			})
+		)
+	}
+
+	// For admin asset delete
+	private checkIfLastImagesInAllDocs(imgUrl: string) {
+		let count = 0;
+		return this.allDocs$.pipe(
 			take(1),
 			map(docs => {
 				for (const doc of docs) {
