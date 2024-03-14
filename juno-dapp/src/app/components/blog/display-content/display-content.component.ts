@@ -27,7 +27,7 @@ export class DisplayContentComponent {
 		const imageUrl = doc.data.url;
 		const imagePath = imageUrl.replace("https://cw5ba-ciaaa-aaaal-advla-cai.icp0.io", "");
 
-		this.docService.deleteDocAndAsset(doc, imagePath).then(() => {
+		this.docService.deleteDocAndAsset(doc, imagePath, false).then(() => {
 			this.snackBar.open('Success!', 'Dismiss', {
 				duration: 3000
 			});
