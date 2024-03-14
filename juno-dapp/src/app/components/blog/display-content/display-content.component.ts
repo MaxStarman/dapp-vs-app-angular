@@ -22,7 +22,7 @@ export class DisplayContentComponent {
 				private snackBar: MatSnackBar) {
 	}
 
-	// TODO navedn user rise samo svoje, admin lahko vse
+	// TODO navedn user brise samo svoje (My tab), admin lahko vse (All tab)
 	deleteEntry(doc: Doc<Entry>) {
 		const imageUrl = doc.data.url;
 		const imagePath = imageUrl.replace("https://cw5ba-ciaaa-aaaal-advla-cai.icp0.io", "");

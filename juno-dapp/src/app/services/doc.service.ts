@@ -1,6 +1,6 @@
 import {Inject, Injectable} from '@angular/core';
-import {combineLatest, from, map, Observable, of, shareReplay, startWith, Subject, switchMap} from "rxjs";
-import {deleteDoc, Doc, getDoc, listDocs, setDoc, uploadFile, User} from "@junobuild/core";
+import {combineLatest, from, map, Observable, of, shareReplay, startWith, Subject, switchMap, take} from "rxjs";
+import {deleteAsset, deleteDoc, Doc, getDoc, listDocs, setDoc, uploadFile, User} from "@junobuild/core";
 import {AuthService} from "./auth.service";
 import {Entry} from "../models/entry";
 import {nanoid} from "nanoid";
@@ -106,19 +106,45 @@ export class DocService {
 		}).catch((err) => console.log(err))
 	}
 
-	// TODO finish
 	async deleteDocAndAsset(doc: Doc<Entry>, imgFullPath: string) {
 		await deleteDoc<Entry>({
 			collection: 'img_descriptions',
 			doc: doc
 		}).then(() => {
+			this.checkIfLastImagesInDocs(imgFullPath).subscribe(deleteImg => {
+				if (deleteImg) {
+					this.deleteImageFromStorage(imgFullPath)
+				}
+			})
 			this.reload()
 		});
 
-		// TODO pobrisi sliko iz storace ce je bil izbrisan zadnji doc s to sliko -> dodaj pogoj kdaj da brise slike
-		// await deleteAsset({
-		// 	collection: 'images',
-		// 	fullPath: imgFullPath
-		// });
+	}
+
+	private async deleteImageFromStorage(imgFullPath: string) {
+		await deleteAsset({
+			collection: 'images',
+			fullPath: imgFullPath
+		});
+	}
+
+	/**
+	 * Return Observable<boolean> if there is only one doc left with a specific image URL.
+	 * @param imgUrl
+	 * @private
+	 */
+	private checkIfLastImagesInDocs(imgUrl: string) {
+		let count = 0;
+		return this.myDocs$.pipe(
+			take(1),
+			map(docs => {
+				for (const doc of docs) {
+					if (doc.data.url && doc.data.url.endsWith(imgUrl)) {
+						count++;
+					}
+				}
+				return count === 1;
+			})
+		)
 	}
 }

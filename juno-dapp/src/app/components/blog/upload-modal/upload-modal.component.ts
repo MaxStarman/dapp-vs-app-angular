@@ -42,6 +42,7 @@ export class UploadModalComponent {
 
 					this.snackBar.open('Error', 'Dismiss', {
 						panelClass: ['error'],
+						duration: 3000
 					});
 
 					this.uploadForm.enable();
@@ -51,7 +52,9 @@ export class UploadModalComponent {
 			.subscribe(() => {
 				this.closeModal('Save clicked')
 
-				this.snackBar.open('Success!', 'Dismiss');
+				this.snackBar.open('Success!', 'Dismiss', {
+					duration: 3000
+				});
 			});
 	}
 

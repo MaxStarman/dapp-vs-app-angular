@@ -16,6 +16,8 @@ export class BlogComponent implements OnInit {
 	username?: string
 	userId?: string
 
+	readonly singedIn$ = this.authService.signedIn$
+
 	constructor(
 		@Inject(AuthService) private authService: AuthService,
 		@Inject(MatDialog) private dialog: MatDialog,
@@ -25,7 +27,7 @@ export class BlogComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		// TODO get user
+		// TODO get user role
 		this.userId = this.authService.userId
 	}
 

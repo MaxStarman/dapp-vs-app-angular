@@ -1,9 +1,12 @@
 <div class="container">
-	<h1>
+	<h1 *ngIf="singedIn$ | async else signInAgain">
 		You are logged in as
-		<!--                <span *ngIf="user.admin">admin</span>-->
+		<!--                <b *ngIf="user.admin">admin</b>-->
 		<b>user</b> {{userId}}.
 	</h1>
+	<ng-template #signInAgain>
+		<h1>Session has expired. Sing in again.</h1>
+	</ng-template>
 </div>
 
 <div class="container">
