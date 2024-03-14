@@ -33,12 +33,16 @@
 											fontIcon="open_in_new"
 										></mat-icon>
 									</a>
-									<!--									TODO delete btn only when loged in as ADMIN-->
 									<app-button
 										(click)="deleteEntry(doc)"
 										[classList]="'m-2'"
 									>
-										<i class="fa-solid fa-trash-can"></i>
+										<i *ngIf="!inProgress$" class="fa-solid fa-trash-can"></i>
+										<!--										TODO optional-->
+										<!--										<mat-spinner-->
+										<!--											[diameter]="10"-->
+										<!--											*ngIf="inProgress$ && doc == delDoc">-->
+										<!--										</mat-spinner>-->
 									</app-button>
 								</div>
 

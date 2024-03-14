@@ -37,7 +37,9 @@ export class LoginComponent implements OnInit {
 			domain: "ic0.app"
 		})
 	}).then(() => {
-		this.checkUser()
+		this.checkUserStatus()
+	}).catch(err => {
+		console.log(err)
 	});
 	readonly singInNFID = async () => await signIn({
 		provider: new NFIDProvider({
@@ -45,21 +47,23 @@ export class LoginComponent implements OnInit {
 			logoUrl: ""
 		})
 	}).then(() => {
-		this.checkUser()
+		this.checkUserStatus()
+	}).catch(err => {
+		console.log(err)
 	});
 
 	ngOnInit() {
 		this.setFormControls()
 	}
 
-	async checkUser() {
+	async checkUserStatus() {
 		this.userModel = this.userLoginForm.value;
 		this.userModel.id = this.authService.userId;
 
-		// TODO ce je prijavi, preveri ali je vnesen pravi username
 		this.docService.getUserDoc(this.userModel.id).then((user) => {
+			// check for the same username
 			if (user && user.data.username != this.userModel.username) {
-				// check for the same username
+				// singOut if is not the same as in DB
 				signOut()
 				this.userLoginForm.reset()
 				this.snackBar.open('Wrong username', 'Dismiss', {
@@ -71,12 +75,10 @@ export class LoginComponent implements OnInit {
 				if (!user) {
 					this.docService.setUserDoc(this.userModel)
 				}
+				this.docService.username$.next(this.userModel.username)
 				this.redirectToBlog()
 			}
 		})
-
-		// TODO add user data to session
-
 	}
 
 	private redirectToBlog() {

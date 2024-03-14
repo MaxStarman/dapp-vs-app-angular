@@ -1,5 +1,17 @@
 import {Inject, Injectable} from '@angular/core';
-import {combineLatest, from, map, Observable, of, shareReplay, startWith, Subject, switchMap, take} from "rxjs";
+import {
+	BehaviorSubject,
+	combineLatest,
+	from,
+	map,
+	Observable,
+	of,
+	shareReplay,
+	startWith,
+	Subject,
+	switchMap,
+	take
+} from "rxjs";
 import {deleteAsset, deleteDoc, Doc, getDoc, listDocs, setDoc, uploadFile, User} from "@junobuild/core";
 import {AuthService} from "./auth.service";
 import {Entry} from "../models/entry";
@@ -11,6 +23,10 @@ import {UserModel} from "../models/userModel";
 	providedIn: 'root'
 })
 export class DocService {
+
+	username$ = new BehaviorSubject<string>('')
+
+	inProgress$ = new BehaviorSubject<boolean>(false)
 
 	private reloadSubject = new Subject<void>();
 
@@ -27,7 +43,6 @@ export class DocService {
 		startWith([]),
 		shareReplay({bufferSize: 1, refCount: true})
 	);
-
 	// Return all documents for loged in user
 	myDocs$: Observable<Doc<Entry>[]> = combineLatest([
 		this.authService.user$,
@@ -47,9 +62,6 @@ export class DocService {
 		startWith([]),
 		shareReplay({bufferSize: 1, refCount: true})
 	);
-
-	// TODO inProgress subject for displaying mat-spinner
-	private inProgress$ = new Subject<boolean>()
 
 	constructor(@Inject(AuthService) private readonly authService: AuthService) {
 	}
@@ -103,7 +115,7 @@ export class DocService {
 		return await getDoc<UserModel>({
 			collection: 'users',
 			key: userId
-		}).catch((err) => console.log(err))
+		})
 	}
 
 	async deleteDocAndAsset(doc: Doc<Entry>, imgFullPath: string, admin: boolean) {

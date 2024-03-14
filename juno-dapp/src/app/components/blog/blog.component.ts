@@ -27,8 +27,8 @@ export class BlogComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		// TODO get user role
 		this.userId = this.authService.userId
+		this.username = this.docService.username$.value
 	}
 
 	openModal() {

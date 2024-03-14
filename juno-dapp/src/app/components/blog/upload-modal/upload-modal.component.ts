@@ -1,8 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {User} from "@junobuild/core";
 import {AuthService} from "../../../services/auth.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {FormBuilder} from "@angular/forms";
+import {FormBuilder, Validators} from "@angular/forms";
 import {catchError, filter, from, NEVER, switchMap, take} from "rxjs";
 import {DocService} from "../../../services/doc.service";
 import {MatDialogRef} from "@angular/material/dialog";
@@ -12,11 +12,14 @@ import {MatDialogRef} from "@angular/material/dialog";
 	templateUrl: './upload-modal.component.html',
 	styleUrls: ['./upload-modal.component.scss']
 })
-export class UploadModalComponent {
+export class UploadModalComponent implements OnInit {
 
 	uploadForm = this.formBuilder.group({
 		entry: '',
+		fileInput: ['', Validators.required]
 	});
+
+	inProgress$: boolean = false;
 
 	private file: File | undefined;
 
@@ -29,33 +32,41 @@ export class UploadModalComponent {
 	) {
 	}
 
-// TODO get username from session storage
-	async onSubmit() {
-		this.uploadForm.disable()
-		this.authService.user$
-			.pipe(
-				filter((user) => user !== null),
-				switchMap((user) => from(this.docService.uploadAndSetEntry(user as User, this.file, this.uploadForm, 'username'))),
-				take(1),
-				catchError((err: unknown) => {
-					console.error(err);
+	ngOnInit() {
+		this.docService.inProgress$.subscribe(progress => {
+			this.inProgress$ = progress.valueOf()
+		})
+	}
 
-					this.snackBar.open('Error', 'Dismiss', {
-						panelClass: ['error'],
+	async onSubmit() {
+		if (this.uploadForm.valid) {
+			this.docService.inProgress$.next(true);
+			this.uploadForm.disable()
+			this.authService.user$
+				.pipe(
+					filter((user) => user !== null),
+					switchMap((user) => from(this.docService.uploadAndSetEntry(user as User, this.file, this.uploadForm, this.docService.username$.value))),
+					take(1),
+					catchError((err: unknown) => {
+						console.error(err);
+
+						this.snackBar.open('Error', 'Dismiss', {
+							panelClass: ['error'],
+							duration: 3000
+						});
+
+						this.uploadForm.enable();
+						return NEVER;
+					})
+				)
+				.subscribe(() => {
+					this.closeModal('Save clicked')
+					this.docService.inProgress$.next(false)
+					this.snackBar.open('Success!', 'Dismiss', {
 						duration: 3000
 					});
-
-					this.uploadForm.enable();
-					return NEVER;
-				})
-			)
-			.subscribe(() => {
-				this.closeModal('Save clicked')
-
-				this.snackBar.open('Success!', 'Dismiss', {
-					duration: 3000
 				});
-			});
+		}
 	}
 
 	async onFileChanged($event: Event) {
