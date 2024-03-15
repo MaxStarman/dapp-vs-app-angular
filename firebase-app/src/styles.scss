@@ -7,6 +7,8 @@
 
 html, body {
 	height: 100%;
+	//--mdc-filled-text-field-focus-label-text-color: $primary-color;
+	//--mdc-filled-text-field-focus-active-indicator-color: $primary-color
 }
 
 body {
@@ -17,6 +19,8 @@ body {
 // Override bootstrap variables
 :root {
 	--bs-primary-rgb: 255, 167, 19;
-	// todo find right variable to override
 	--bs-link-hover-color-rgb: 245, 129, 10;
+	// todo find right variable to override
+	//--mdc-filled-text-field-focus-label-text-color: 255, 167, 19;
 }
+

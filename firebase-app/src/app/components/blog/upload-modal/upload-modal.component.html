@@ -1,1 +1,40 @@
-<p>upload-modal works!</p>
+<div class="container">
+	<h4 mat-dialog-title>Upload your file here</h4>
+
+	<mat-dialog-content class="mat-typography pt-2">
+		<form [formGroup]="uploadForm">
+			<mat-form-field>
+				<mat-label>Description</mat-label>
+				<textarea formControlName="entry" matInput rows="1"></textarea>
+			</mat-form-field>
+			<input (change)="onFileChanged($event)"
+				   accept="image/png, image/gif, image/jpeg"
+				   formControlName="fileInput"
+				   type="file">
+		</form>
+	</mat-dialog-content>
+
+	<mat-dialog-actions class="justify-content-between">
+		<app-button (click)="closeModal('Close click')"
+					[disabled]="uploadForm.disabled"
+					[type]="'button'"
+		>
+			Close
+		</app-button>
+		<app-button (click)="onSubmit()"
+					[disabled]="uploadForm.disabled || uploadForm.invalid"
+					[type]="'submit'"
+		>
+			Save
+		</app-button>
+
+	</mat-dialog-actions>
+
+	<div class="spinner">
+		<mat-spinner
+			*ngIf="inProgress$"
+			[diameter]="50"
+		></mat-spinner>
+	</div>
+
+</div>

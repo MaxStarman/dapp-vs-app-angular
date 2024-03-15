@@ -17,6 +17,16 @@ import {FrameComponent} from './components/frame/frame.component';
 import {ButtonComponent} from './components/button/button.component';
 import {UploadModalComponent} from './components/blog/upload-modal/upload-modal.component';
 import {DisplayContentComponent} from './components/blog/display-content/display-content.component';
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatTableModule} from "@angular/material/table";
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatCardModule} from "@angular/material/card";
+import {MatTabsModule} from "@angular/material/tabs";
+import {MatInputModule} from "@angular/material/input";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatButtonModule} from "@angular/material/button";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatIconModule} from "@angular/material/icon";
 
 
 @NgModule({
@@ -38,7 +48,17 @@ import {DisplayContentComponent} from './components/blog/display-content/display
 		BrowserAnimationsModule,
 		AngularFireModule.initializeApp(environment.firebase),
 		RouterOutlet,
-		AppRoutingModule
+		AppRoutingModule,
+		MatTabsModule,
+		MatFormFieldModule,
+		MatInputModule,
+		MatCardModule,
+		MatDialogModule,
+		MatSnackBarModule,
+		MatButtonModule,
+		MatTableModule,
+		MatProgressSpinnerModule,
+		MatIconModule
 	],
 	providers: [],
 	bootstrap: [AppComponent]

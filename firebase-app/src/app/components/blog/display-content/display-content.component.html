@@ -1,1 +1,108 @@
-<p>display-content works!</p>
+<div class="container">
+
+	<div class="card mt-4">
+		<mat-tab-group>
+			<mat-tab label="My">
+				<div class="container mt-3 mb-3">
+					<table [dataSource]="myDocs" mat-table>
+						<ng-container matColumnDef="creator">
+							<th *matHeaderCellDef mat-header-cell>Creator</th>
+							<td *matCellDef="let doc" mat-cell>{{ doc.data.creator }}</td>
+						</ng-container>
+
+						<ng-container matColumnDef="text">
+							<th *matHeaderCellDef mat-header-cell>Text</th>
+							<td *matCellDef="let doc" mat-cell>{{ doc.data.text }}</td>
+						</ng-container>
+
+						<ng-container matColumnDef="url">
+							<th *matHeaderCellDef mat-header-cell>Url</th>
+							<td *matCellDef="let doc" mat-cell>
+								<div *ngIf="doc.data.url !== undefined"
+									 class="d-flex justify-content-between align-items-center"
+								>
+									<a
+										[href]="doc.data.url"
+										aria-label="Open data"
+										rel="noopener noreferrer"
+										target="_blank"
+									>
+										<mat-icon
+											aria-hidden="false"
+											aria-label="Example home icon"
+											fontIcon="open_in_new"
+										></mat-icon>
+									</a>
+									<app-button
+										(click)="deleteEntry(doc)"
+										[classList]="'m-2'"
+									>
+										<i *ngIf="!inProgress$" class="fa-solid fa-trash-can"></i>
+										<!--										TODO optional-->
+										<!--										<mat-spinner-->
+										<!--											[diameter]="10"-->
+										<!--											*ngIf="inProgress$ && doc == delDoc">-->
+										<!--										</mat-spinner>-->
+									</app-button>
+								</div>
+
+							</td>
+						</ng-container>
+
+						<tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+						<tr *matRowDef="let doc; columns: displayedColumns" mat-row></tr>
+					</table>
+				</div>
+			</mat-tab>
+			<mat-tab label="All">
+				<div class="container mt-3 mb-3">
+					<table [dataSource]="allDocs" mat-table>
+						<ng-container matColumnDef="creator">
+							<th *matHeaderCellDef mat-header-cell>Creator</th>
+							<td *matCellDef="let doc" mat-cell>{{ doc.data.creator }}</td>
+						</ng-container>
+
+						<ng-container matColumnDef="text">
+							<th *matHeaderCellDef mat-header-cell>Text</th>
+							<td *matCellDef="let doc" mat-cell>{{ doc.data.text }}</td>
+						</ng-container>
+
+						<ng-container matColumnDef="url">
+							<th *matHeaderCellDef mat-header-cell>Url</th>
+							<td *matCellDef="let doc" mat-cell>
+								<div *ngIf="doc.data.url !== undefined"
+									 class="d-flex justify-content-between align-items-center"
+								>
+									<a
+										[href]="doc.data.url"
+										aria-label="Open data"
+										rel="noopener noreferrer"
+										target="_blank"
+									>
+										<mat-icon
+											aria-hidden="false"
+											aria-label="Example home icon"
+											fontIcon="open_in_new"
+										></mat-icon>
+									</a>
+									<!--TODO delete btn only when loged in as ADMIN-->
+									<!--									<app-button-->
+									<!--										(click)="deleteEntry(doc)"-->
+									<!--										[classList]="'m-2'"-->
+									<!--									>-->
+									<!--										<i class="fa-solid fa-trash-can"></i>-->
+									<!--									</app-button>-->
+								</div>
+
+							</td>
+						</ng-container>
+
+						<tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+						<tr *matRowDef="let doc; columns: displayedColumns" mat-row></tr>
+					</table>
+				</div>
+			</mat-tab>
+		</mat-tab-group>
+
+	</div>
+</div>
