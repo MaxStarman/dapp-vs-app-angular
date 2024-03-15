@@ -2,6 +2,21 @@
 
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
+@import "variables.scss";
+@import "~@fortawesome/fontawesome-free/css/all.css";
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+// Override bootstrap variables
+:root {
+	--bs-primary-rgb: 255, 167, 19;
+	// todo find right variable to override
+	--bs-link-hover-color-rgb: 245, 129, 10;
+}

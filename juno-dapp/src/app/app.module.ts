@@ -58,6 +58,10 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 	],
 	providers: [{provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}],
+	exports: [
+		UploadModalComponent,
+		DisplayContentComponent
+	],
 	bootstrap: [AppComponent]
 })
 export class AppModule {

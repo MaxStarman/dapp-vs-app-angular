@@ -1,0 +1,20 @@
+<div class="landing-page mb-3">
+	<header class="header">
+		<a class="home-link" routerLink="/home">
+			<div class="d-flex align-items-baseline">
+				<i class="fa-solid fa-fire"></i>
+				<h1>Fire Blog</h1>
+			</div>
+		</a>
+		<a *ngIf="singedIn$"
+		   routerLink="/home"
+		>
+			<app-button (click)="signOut()"
+						type="button"
+
+			>
+				Sign Out
+			</app-button>
+		</a>
+	</header>
+</div>

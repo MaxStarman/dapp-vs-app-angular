@@ -10,7 +10,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 // Override bootstrap variables
 :root {
-	--bs-primary-rgb: 120,136,255;
+	--bs-primary-rgb: 120, 136, 255;
+	--bs-link-hover-color-rgb: 245, 129, 10;
 }
 
 
