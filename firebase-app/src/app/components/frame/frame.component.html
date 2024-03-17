@@ -6,15 +6,12 @@
 				<h1>Fire Blog</h1>
 			</div>
 		</a>
-		<a *ngIf="singedIn$"
-		   routerLink="/home"
-		>
+		<span *ngIf="(singedIn$ | async)">
 			<app-button (click)="signOut()"
 						type="button"
-
 			>
 				Sign Out
 			</app-button>
-		</a>
+		</span>
 	</header>
 </div>

@@ -1,9 +1,10 @@
 export class UserModel {
 
 	constructor(
-		public id: string,
 		public username: string,
-		public admin: boolean = false
+		public email: string,
+		public password: string,
+		// public admin: boolean = false
 	) {
 	}
 }

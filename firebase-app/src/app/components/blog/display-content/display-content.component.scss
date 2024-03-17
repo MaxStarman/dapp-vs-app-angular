@@ -1,16 +1,15 @@
 table {
 	width: 100%;
 	table-layout: fixed;
-}
 
-th,
-td {
-	overflow: hidden;
-	width: 50%;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
+	th, td {
+		overflow: hidden;
+		width: 50%;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
 
-mat-icon {
-	color: initial;
+	mat-icon {
+		color: initial;
+	}
 }

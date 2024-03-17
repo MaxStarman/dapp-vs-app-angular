@@ -27,6 +27,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatButtonModule} from "@angular/material/button";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatIconModule} from "@angular/material/icon";
+import {AngularFireAuthModule} from "@angular/fire/compat/auth";
 
 
 @NgModule({
@@ -46,9 +47,10 @@ import {MatIconModule} from "@angular/material/icon";
 		ReactiveFormsModule,
 		NgbModule,
 		BrowserAnimationsModule,
-		AngularFireModule.initializeApp(environment.firebase),
 		RouterOutlet,
 		AppRoutingModule,
+		AngularFireModule.initializeApp(environment.firebase),
+		AngularFireAuthModule,
 		MatTabsModule,
 		MatFormFieldModule,
 		MatInputModule,

@@ -1,6 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {AuthService} from "../../services/auth.service";
-import {UserModel} from "../../models/userModel";
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -14,9 +13,9 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 export class LoginComponent implements OnInit {
 
 	userLoginForm!: FormGroup
-	userModel = new UserModel('', '');
-
-	singedIn$ = false
+	signingIn = false;
+	registering = false;
+	readonly singedIn$ = this.authService.signedIn$;
 
 	constructor(
 		@Inject(AuthService) private authService: AuthService,
@@ -27,12 +26,53 @@ export class LoginComponent implements OnInit {
 	}
 
 
-	ngOnInit() {
+	ngOnInit(): void {
 		this.setFormControls()
 	}
 
 	signIn() {
-		alert('TODO')
+		if (this.userLoginForm.valid) {
+			this.signingIn = true;
+
+			this.authService.signIn({
+				username: this.userLoginForm.value.username,
+				email: this.userLoginForm.value.email,
+				password: this.userLoginForm.value.password
+			}).subscribe({
+				next: (user) => {
+					if (user.user) {
+						this.redirectToBlog()
+					}
+				},
+				error: error => {
+					this.signingIn = false;
+					this.snackBar.open(error.message, "OK", {
+						duration: 5000
+					})
+				}
+			});
+		}
+
+	}
+
+	registerUser() {
+		if (this.userLoginForm.valid) {
+			this.registering = true;
+
+			this.authService.registerUser({
+				username: this.userLoginForm.value.username,
+				email: this.userLoginForm.value.email,
+				password: this.userLoginForm.value.password
+			}).subscribe({
+				next: () => this.redirectToBlog(),
+				error: error => {
+					this.registering = false;
+					this.snackBar.open(error.message, "OK", {
+						duration: 5000
+					})
+				}
+			})
+		}
 	}
 
 	private redirectToBlog() {
@@ -41,7 +81,9 @@ export class LoginComponent implements OnInit {
 
 	private setFormControls() {
 		this.userLoginForm = this.fb.group({
-			username: [this.userModel.username, Validators.required]
+			username: ['', Validators.required],
+			email: ['', [Validators.required, Validators.email]],
+			password: ['', [Validators.required, Validators.minLength(6)]]
 		});
 	}
 }

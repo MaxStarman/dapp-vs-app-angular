@@ -5,10 +5,15 @@
 @import "variables.scss";
 @import "~@fortawesome/fontawesome-free/css/all.css";
 
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
 html, body {
 	height: 100%;
+	// TODO change this variables color
 	//--mdc-filled-text-field-focus-label-text-color: $primary-color;
 	//--mdc-filled-text-field-focus-active-indicator-color: $primary-color
+	//var(--mat-tab-header-active-label-text-color)
+	//var(--mdc-tab-indicator-active-indicator-color)
 }
 
 body {
@@ -20,7 +25,5 @@ body {
 :root {
 	--bs-primary-rgb: 255, 167, 19;
 	--bs-link-hover-color-rgb: 245, 129, 10;
-	// todo find right variable to override
-	//--mdc-filled-text-field-focus-label-text-color: 255, 167, 19;
 }
 

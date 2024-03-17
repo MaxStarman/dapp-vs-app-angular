@@ -1,18 +1,28 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {AuthService} from "../../services/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
 	selector: 'app-frame',
 	templateUrl: './frame.component.html',
 	styleUrls: ['./frame.component.scss']
 })
-export class FrameComponent {
+export class FrameComponent implements OnInit {
 
-	readonly singedIn$ = true;
+	readonly singedIn$ = this.authService.signedIn$;
 
-	constructor() {
+
+	constructor(private authService: AuthService,
+				private router: Router) {
+	}
+
+	ngOnInit(): void {
+
 	}
 
 	signOut() {
-		alert('TODO')
+		this.authService.signOut().subscribe(() => {
+			this.router?.navigate(['/home']);
+		})
 	}
 }
