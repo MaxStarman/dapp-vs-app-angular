@@ -4,7 +4,7 @@
 		<mat-tab-group>
 			<mat-tab label="My">
 				<div class="container mt-3 mb-3">
-					<table [dataSource]="myDocs" mat-table>
+					<table [dataSource]="myDocs$" mat-table>
 						<ng-container matColumnDef="creator">
 							<th *matHeaderCellDef mat-header-cell>Creator</th>
 							<td *matCellDef="let doc" mat-cell>{{ doc.data.creator }}</td>
@@ -56,7 +56,7 @@
 			</mat-tab>
 			<mat-tab label="All">
 				<div class="container mt-3 mb-3">
-					<table [dataSource]="allDocs" mat-table>
+					<table [dataSource]="allDocs$" mat-table>
 						<ng-container matColumnDef="creator">
 							<th *matHeaderCellDef mat-header-cell>Creator</th>
 							<td *matCellDef="let doc" mat-cell>{{ doc.data.creator }}</td>

@@ -12,6 +12,7 @@ export class AuthService {
 
 	readonly signedIn$: Observable<boolean>;
 
+	// Observable user
 	constructor(
 		private auth: AngularFireAuth
 	) {
@@ -24,6 +25,12 @@ export class AuthService {
 		return from(this.auth.currentUser).pipe(
 			map(user => user)
 		);
+	}
+
+	get userId() {
+		return from(this.auth.currentUser).pipe(
+			map(user => user?.uid)
+		)
 	}
 
 	signIn(params: UserModel) {

@@ -15,7 +15,7 @@ export class BlogComponent implements OnInit {
 	username?: string
 	userId?: string
 
-	singedIn$ = true
+	readonly singedIn$ = this.authService.signedIn$;
 
 	constructor(
 		@Inject(AuthService) private authService: AuthService,
@@ -25,7 +25,9 @@ export class BlogComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.userId = 'userId'
+		this.authService.userId.subscribe(uid => {
+			this.userId = uid
+		})
 		this.username = 'username'
 	}
 

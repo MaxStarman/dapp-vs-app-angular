@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Entry} from "../../../models/entry";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {DocsService} from "../../../services/docs.service";
 
 @Component({
 	selector: 'display-content',
@@ -11,14 +12,15 @@ export class DisplayContentComponent implements OnInit {
 
 	readonly displayedColumns: string[] = ['creator', 'text', 'url'];
 
-	allDocs = []
-	myDocs = []
+	allDocs$ = this.docService.getAllDocs();
+	myDocs$ = []
 
 	inProgress$: boolean = false
 
 	delDoc?: Entry;
 
-	constructor(private snackBar: MatSnackBar) {
+	constructor(private docService: DocsService,
+				private snackBar: MatSnackBar) {
 	}
 
 	ngOnInit() {
