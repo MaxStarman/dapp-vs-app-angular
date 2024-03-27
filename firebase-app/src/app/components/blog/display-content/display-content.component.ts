@@ -10,10 +10,11 @@ import {DocsService} from "../../../services/docs.service";
 })
 export class DisplayContentComponent implements OnInit {
 
-	readonly displayedColumns: string[] = ['creator', 'text', 'url'];
+	readonly displayedColumns: string[] = ['creator', 'text']; // later add url
 
-	allDocs$ = this.docService.getAllDocs();
-	myDocs$ = []
+	allDocs$ = this.docService.allDocs$;
+
+	myDocs$ = this.docService.myDocs$;
 
 	inProgress$: boolean = false
 
@@ -25,7 +26,9 @@ export class DisplayContentComponent implements OnInit {
 
 	ngOnInit() {
 		//TODO subscribe to inProgress Behaviour subject
+		// this.docService.createDoc(this.entry).then((c)=> console.log('done', c))
 	}
+
 
 	// TODO naveden user brise samo svoje (My tab), admin lahko vse (All tab)
 	deleteEntry(doc: any) {

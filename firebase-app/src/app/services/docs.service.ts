@@ -1,40 +1,48 @@
 import {Injectable} from '@angular/core';
-import {collection, collectionData, Firestore} from "@angular/fire/firestore";
-import {Observable} from "rxjs";
-import {Storage} from "@angular/fire/storage";
+import {AngularFirestore, AngularFirestoreCollection, QueryFn} from "@angular/fire/compat/firestore";
+import {Entry} from "../models/entry";
+import {AuthService} from "./auth.service";
 
 @Injectable({
 	providedIn: 'root'
 })
 export class DocsService {
 
+	firestoreRef: AngularFirestoreCollection<Entry>;
+	allDocs$;
+	myDocs$ = [];
 
-	constructor(private firestore: Firestore,
-				private storage: Storage) {
+	private uid: string | undefined;
+	private dbPath = '/entries'
+
+	constructor(private firestore: AngularFirestore,
+				private authService: AuthService
+	) {
+		this.firestoreRef = firestore.collection(this.dbPath)
+		this.allDocs$ = this.getAllDocsObservable();
+		// this.myDocs$ = this.getMyDocsObservable();
+		this.authService.userId.subscribe(uid => {
+			this.uid = uid;
+		})
 	}
 
 
-	getAllDocs() {
-		return collectionData(collection(this.firestore, 'entries')) as Observable<any>
+	getAllDocsObservable() {
+		return this.firestore.collection(this.dbPath).valueChanges()
 	}
 
-	getMyDocs() {
-		// return collectionData(collection(this.firestore, '')) as Observable<Entry>
+	getMyDocsObservable() {
+		const queryFn: QueryFn = ref => ref.where('userId', '==', this.uid);
+
+		return this.firestore.collection(this.dbPath, queryFn).valueChanges()
 	}
 
-	// async addEntry(userId: string, data: Entry, file : File) {
-	//
-	// 	const imagePath = '';
-	// 	const storageRef = ref(this.storage, imagePath);
-	// 	await uploadBytesResumable(storageRef, file);
-	// 	const url = await getDownloadURL(storageRef)
-	//
-	// 	const docRef = await addDoc(collection(this.firestore, 'entries'), data);
-	// }
+	createDoc(entry: Entry) {
+		console.log(entry)
+		return this.firestoreRef.add({...entry})
+	}
 
-	// async deleteEntry(path: string) {
-	// 	const  ref = doc(this.firestore, path);
-	// 	await  deleteDoc(ref)
-	// }
-
+	deleteDoc(id: string) {
+		return this.firestoreRef.doc(id).delete();
+	}
 }

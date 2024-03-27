@@ -1,6 +1,5 @@
 export interface Entry {
-	// TODO
+	uid: string;
 	creator: string;
 	text: string;
-	imageRef: string;
 }

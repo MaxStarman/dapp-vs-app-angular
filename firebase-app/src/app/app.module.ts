@@ -28,11 +28,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatIconModule} from "@angular/material/icon";
 import {AngularFireAuthModule} from "@angular/fire/compat/auth";
-import {AngularFireDatabaseModule} from "@angular/fire/compat/database";
 import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
-import {connectAuthEmulator, getAuth, provideAuth} from "@angular/fire/auth";
-import {connectStorageEmulator, getStorage, provideStorage} from "@angular/fire/storage";
-import {connectFirestoreEmulator, getFirestore, provideFirestore} from "@angular/fire/firestore";
 
 
 @NgModule({
@@ -56,7 +52,6 @@ import {connectFirestoreEmulator, getFirestore, provideFirestore} from "@angular
 		AppRoutingModule,
 		AngularFireModule.initializeApp(environment.firebase),
 		AngularFireAuthModule,
-		AngularFireDatabaseModule,
 		AngularFirestoreModule,
 		MatTabsModule,
 		MatFormFieldModule,
@@ -67,29 +62,7 @@ import {connectFirestoreEmulator, getFirestore, provideFirestore} from "@angular
 		MatButtonModule,
 		MatTableModule,
 		MatProgressSpinnerModule,
-		MatIconModule,
-		provideAuth(() => {
-			const auth = getAuth();
-			if (location.hostname === 'localhost') {
-				connectAuthEmulator(auth, 'http://127.0.0.1:9099', {disableWarnings: true});
-			}
-			return auth;
-		}),
-		provideFirestore(() => {
-			const firestore = getFirestore();
-			if (location.hostname === 'localhost') {
-				connectFirestoreEmulator(firestore, '127.0.0.1', 8080);
-			}
-			return firestore;
-
-		}),
-		provideStorage(() => {
-			const storage = getStorage();
-			if (location.hostname === 'localhost') {
-				connectStorageEmulator(storage, '127.0.0.1', 5001);
-			}
-			return storage;
-		}),
+		MatIconModule
 	],
 	providers: [],
 	bootstrap: [AppComponent]

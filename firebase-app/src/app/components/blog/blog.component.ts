@@ -5,6 +5,11 @@ import {UploadModalComponent} from "./upload-modal/upload-modal.component";
 import {MatDialog} from "@angular/material/dialog";
 import {take} from "rxjs";
 
+export interface DialogData {
+	uid: string;
+	username: string;
+}
+
 @Component({
 	selector: 'app-blog',
 	templateUrl: './blog.component.html',
@@ -18,7 +23,7 @@ export class BlogComponent implements OnInit {
 	readonly singedIn$ = this.authService.signedIn$;
 
 	constructor(
-		@Inject(AuthService) private authService: AuthService,
+		private authService: AuthService,
 		@Inject(MatDialog) private dialog: MatDialog,
 		public modalService: NgbModal
 	) {
@@ -35,13 +40,15 @@ export class BlogComponent implements OnInit {
 		let dialogRef = this.dialog.open(UploadModalComponent, {
 			height: '400px',
 			width: '600px',
+			data: {
+				uid: this.userId,
+				username: this.username
+			}
 		});
 
 		dialogRef
 			.afterClosed()
 			.pipe(take(1))
-			.subscribe(() => {
-				// TODO reload documents
-			});
+			.subscribe();
 	}
 }
