@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Entry} from "../../../models/entry";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {DocsService} from "../../../services/docs.service";
+import {Observable} from "rxjs";
 
 @Component({
 	selector: 'display-content',
@@ -10,11 +11,14 @@ import {DocsService} from "../../../services/docs.service";
 })
 export class DisplayContentComponent implements OnInit {
 
+	@Input()
+	uid?: string;
+
 	readonly displayedColumns: string[] = ['creator', 'text']; // later add url
 
-	allDocs$ = this.docService.allDocs$;
+	allDocs$ = this.docService.getAllDocsObservable();
 
-	myDocs$ = this.docService.myDocs$;
+	myDocs$ = new Observable<any>();
 
 	inProgress$: boolean = false
 
@@ -25,8 +29,8 @@ export class DisplayContentComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		//TODO subscribe to inProgress Behaviour subject
-		// this.docService.createDoc(this.entry).then((c)=> console.log('done', c))
+		// TODO optimize uid
+		this.myDocs$ = this.docService.getMyDocsObservable(this.uid);
 	}
 
 

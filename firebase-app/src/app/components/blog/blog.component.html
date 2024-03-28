@@ -18,4 +18,8 @@
 	</app-button>
 </div>
 
-<display-content></display-content>
+
+<display-content
+	*ngIf="!inProgress"
+	[uid]="userId"
+></display-content>

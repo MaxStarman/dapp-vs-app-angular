@@ -17,10 +17,12 @@ export interface DialogData {
 })
 export class BlogComponent implements OnInit {
 
-	username?: string
-	userId?: string
+	username?: string | null | undefined;
+	userId?: string;
 
 	readonly singedIn$ = this.authService.signedIn$;
+
+	inProgress = true;
 
 	constructor(
 		private authService: AuthService,
@@ -29,11 +31,15 @@ export class BlogComponent implements OnInit {
 	) {
 	}
 
+	// TODO dodaj nek loading card oz. nek inProgress
 	ngOnInit(): void {
-		this.authService.userId.subscribe(uid => {
-			this.userId = uid
+		this.authService.currentUser.subscribe((user) => {
+			if (user) {
+				this.inProgress = false;
+				this.userId = user?.uid
+				this.username = user?.displayName
+			}
 		})
-		this.username = 'username'
 	}
 
 	openModal() {

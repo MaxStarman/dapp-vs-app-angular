@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import firebase from "firebase/compat";
 import {catchError, from, map, Observable, throwError} from "rxjs";
-import {UserModel} from "../models/userModel";
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import FirebaseError = firebase.FirebaseError;
+import User = firebase.User;
+
 
 @Injectable({
 	providedIn: 'root'
@@ -12,43 +13,56 @@ export class AuthService {
 
 	readonly signedIn$: Observable<boolean>;
 
-	// Observable user
 	constructor(
-		private auth: AngularFireAuth
+		private authFire: AngularFireAuth,
 	) {
-		this.signedIn$ = this.auth.authState.pipe(
+		this.signedIn$ = this.authFire.authState.pipe(
 			map(user => !!user)
 		);
 	}
 
+	// TODO optimize with Firebase functions
+
 	get currentUser() {
-		return from(this.auth.currentUser).pipe(
+		return from(this.authFire.currentUser).pipe(
 			map(user => user)
 		);
 	}
 
 	get userId() {
-		return from(this.auth.currentUser).pipe(
+		return from(this.authFire.currentUser).pipe(
 			map(user => user?.uid)
 		)
 	}
 
-	signIn(params: UserModel) {
-		return from(this.auth.signInWithEmailAndPassword(
-			params.email, params.password
-		)).pipe(
+	signIn(params: any) {
+		return from(this.authFire.signInWithEmailAndPassword(
+				params.email, params.password
+			)
+		).pipe(
 			catchError((error: FirebaseError) =>
 				throwError(() => new Error(this.translateFirebaseErrorMessage(error)))
 			)
 		);
 	}
 
-	signOut() {
-		return from(this.auth.signOut())
+	updateUserProfile(user: User, username: string) {
+		return from(user.updateProfile({
+			displayName: username,
+			photoURL: null
+		}));
 	}
 
-	registerUser(params: UserModel) {
-		return from(this.auth.createUserWithEmailAndPassword(
+	// TODO
+	checkUsername() {
+	}
+
+	signOut() {
+		return from(this.authFire.signOut())
+	}
+
+	registerUser(params: any) {
+		return from(this.authFire.createUserWithEmailAndPassword(
 			params.email, params.password
 		)).pipe(
 			catchError((error: FirebaseError) =>

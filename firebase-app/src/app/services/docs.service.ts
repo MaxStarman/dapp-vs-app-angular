@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection, QueryFn} from "@angular/fire/compat/firestore";
 import {Entry} from "../models/entry";
 import {AuthService} from "./auth.service";
+import {Observable} from "rxjs";
 
 @Injectable({
 	providedIn: 'root'
@@ -9,32 +10,24 @@ import {AuthService} from "./auth.service";
 export class DocsService {
 
 	firestoreRef: AngularFirestoreCollection<Entry>;
-	allDocs$;
-	myDocs$ = [];
 
-	private uid: string | undefined;
 	private dbPath = '/entries'
 
 	constructor(private firestore: AngularFirestore,
 				private authService: AuthService
 	) {
 		this.firestoreRef = firestore.collection(this.dbPath)
-		this.allDocs$ = this.getAllDocsObservable();
-		// this.myDocs$ = this.getMyDocsObservable();
-		this.authService.userId.subscribe(uid => {
-			this.uid = uid;
-		})
 	}
 
 
-	getAllDocsObservable() {
+	getAllDocsObservable(): Observable<any> {
 		return this.firestore.collection(this.dbPath).valueChanges()
 	}
 
-	getMyDocsObservable() {
-		const queryFn: QueryFn = ref => ref.where('userId', '==', this.uid);
-
-		return this.firestore.collection(this.dbPath, queryFn).valueChanges()
+	// TODO optimize uid
+	getMyDocsObservable(uid: string | undefined): Observable<any> {
+		const queryFn: QueryFn = ref => ref.where('uid', '==', uid);
+		return this.firestore.collection(this.dbPath, queryFn).valueChanges();
 	}
 
 	createDoc(entry: Entry) {

@@ -30,19 +30,25 @@ export class LoginComponent implements OnInit {
 		this.setFormControls()
 	}
 
+	// TODO updateProfile samo ob registraciji, pri signIn preveri ce je enakt kot v bazi
 	signIn() {
 		if (this.userLoginForm.valid) {
 			this.signingIn = true;
 
 			this.authService.signIn({
-				username: this.userLoginForm.value.username,
 				email: this.userLoginForm.value.email,
 				password: this.userLoginForm.value.password
 			}).subscribe({
 				next: (user) => {
-					if (user.user) {
-						this.redirectToBlog()
-					}
+					if (user.user)
+						this.authService
+							.updateUserProfile(user.user, this.userLoginForm.value.username)
+							.subscribe({
+								next: () => {
+									this.signingIn = false;
+									this.redirectToBlog()
+								}
+							})
 				},
 				error: error => {
 					this.signingIn = false;
@@ -60,11 +66,22 @@ export class LoginComponent implements OnInit {
 			this.registering = true;
 
 			this.authService.registerUser({
-				username: this.userLoginForm.value.username,
 				email: this.userLoginForm.value.email,
 				password: this.userLoginForm.value.password
 			}).subscribe({
-				next: () => this.redirectToBlog(),
+				next: (user) => {
+					if (user.user) {
+						this.authService
+							.updateUserProfile(user.user, this.userLoginForm.value.username)
+							.subscribe({
+								next: () => {
+									this.registering = false;
+									this.redirectToBlog();
+								}
+							})
+					}
+
+				},
 				error: error => {
 					this.registering = false;
 					this.snackBar.open(error.message, "OK", {
