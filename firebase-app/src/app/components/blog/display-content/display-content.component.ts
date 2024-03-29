@@ -3,6 +3,7 @@ import {Entry} from "../../../models/entry";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {DocsService} from "../../../services/docs.service";
 import {Observable} from "rxjs";
+import {FireDoc} from "../../../models/fireDoc";
 
 @Component({
 	selector: 'display-content',
@@ -30,12 +31,17 @@ export class DisplayContentComponent implements OnInit {
 
 	ngOnInit() {
 		// TODO optimize uid
-		this.myDocs$ = this.docService.getMyDocsObservable(this.uid);
+		this.myDocs$ = this.docService.getMyDocsObservable(this.uid)
+
 	}
 
 
 	// TODO naveden user brise samo svoje (My tab), admin lahko vse (All tab)
-	deleteEntry(doc: any) {
-		alert('TODO')
+	deleteEntry(doc: FireDoc) {
+		this.docService.deleteDoc(doc.id).then(() => {
+			this.snackBar.open('Document deleted', 'OK', {
+				duration: 5000
+			})
+		})
 	}
 }

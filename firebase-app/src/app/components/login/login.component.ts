@@ -30,7 +30,6 @@ export class LoginComponent implements OnInit {
 		this.setFormControls()
 	}
 
-	// TODO updateProfile samo ob registraciji, pri signIn preveri ce je enakt kot v bazi
 	signIn() {
 		if (this.userLoginForm.valid) {
 			this.signingIn = true;
@@ -40,15 +39,16 @@ export class LoginComponent implements OnInit {
 				password: this.userLoginForm.value.password
 			}).subscribe({
 				next: (user) => {
-					if (user.user)
-						this.authService
-							.updateUserProfile(user.user, this.userLoginForm.value.username)
-							.subscribe({
-								next: () => {
-									this.signingIn = false;
-									this.redirectToBlog()
-								}
-							})
+
+					if (user.user?.displayName != this.userLoginForm.value.username) {
+						this.snackBar.open('Incorrect username!', "OK", {
+							duration: 5000
+						})
+						this.authService.signOut()
+					} else {
+						this.redirectToBlog()
+					}
+					this.signingIn = false;
 				},
 				error: error => {
 					this.signingIn = false;

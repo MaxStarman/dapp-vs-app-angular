@@ -7,12 +7,25 @@
 					<table [dataSource]="myDocs$" mat-table>
 						<ng-container matColumnDef="creator">
 							<th *matHeaderCellDef mat-header-cell>Creator</th>
-							<td *matCellDef="let doc" mat-cell>{{ doc.creator }}</td>
+							<td *matCellDef="let doc" mat-cell>{{ doc.data.creator }}</td>
 						</ng-container>
 
 						<ng-container matColumnDef="text">
 							<th *matHeaderCellDef mat-header-cell>Text</th>
-							<td *matCellDef="let doc" mat-cell>{{ doc.text }}</td>
+							<td *matCellDef="let doc" mat-cell>
+								<div
+									class="d-flex justify-content-between align-items-center"
+								>
+									{{ doc.data.text }}
+									<app-button
+										(click)="deleteEntry(doc)"
+										[classList]="'m-2'"
+									>
+										<i *ngIf="!inProgress$" class="fa-solid fa-trash-can"></i>
+									</app-button>
+								</div>
+
+							</td>
 						</ng-container>
 						<tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
 						<tr *matRowDef="let doc; columns: displayedColumns" mat-row></tr>
@@ -24,12 +37,12 @@
 					<table [dataSource]="allDocs$" mat-table>
 						<ng-container matColumnDef="creator">
 							<th *matHeaderCellDef mat-header-cell>Creator</th>
-							<td *matCellDef="let doc" mat-cell>{{ doc.creator }}</td>
+							<td *matCellDef="let doc" mat-cell>{{ doc.data.creator }}</td>
 						</ng-container>
 
 						<ng-container matColumnDef="text">
 							<th *matHeaderCellDef mat-header-cell>Text</th>
-							<td *matCellDef="let doc" mat-cell>{{ doc.text }}</td>
+							<td *matCellDef="let doc" mat-cell>{{ doc.data.text }}</td>
 						</ng-container>
 						<tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
 						<tr *matRowDef="let doc; columns: displayedColumns" mat-row></tr>
