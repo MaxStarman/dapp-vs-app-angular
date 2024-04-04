@@ -1,24 +1,35 @@
 // auth.guard.ts
-import {Inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import {Observable} from 'rxjs';
+import {map, Observable, take, tap} from 'rxjs';
 import {AuthService} from './services/auth.service';
 
 @Injectable({
 	providedIn: 'root'
 })
-//TODO maybe could be done with firebase AuthGuard
+
 export class AuthGuard implements CanActivate {
 
-	constructor(@Inject(AuthService) private readonly authService: AuthService,
+	constructor(private authService: AuthService,
 				private router: Router) {
 	}
 
+
+	// @ts-ignore
 	canActivate(
 		next: ActivatedRouteSnapshot,
-		state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+		state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean | null {
 
-		// todo
-		return true;
+		// @ts-ignore
+		return this.authService.user$.pipe(
+			take(1),
+			map(user => !!user), // <-- map to boolean
+			tap(loggedIn => {
+				if (!loggedIn) {
+					console.error('Access denied')
+					this.router.navigate(['/'])
+				}
+			})
+		)
 	}
 }
