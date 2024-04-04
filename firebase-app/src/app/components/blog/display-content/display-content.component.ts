@@ -2,7 +2,6 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Entry} from "../../../models/entry";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {DocsService} from "../../../services/docs.service";
-import {Observable} from "rxjs";
 import {FireDoc} from "../../../models/fireDoc";
 
 @Component({
@@ -17,9 +16,11 @@ export class DisplayContentComponent implements OnInit {
 
 	readonly displayedColumns: string[] = ['creator', 'text']; // later add url
 
-	allDocs$ = this.docService.getAllDocsObservable();
+	allDocs$ = []
+	// this.docService.getAllDocsObservable();
 
-	myDocs$ = new Observable<any>();
+	myDocs$ = []
+	// new Observable<any>();
 
 	inProgress$: boolean = false
 
@@ -31,7 +32,7 @@ export class DisplayContentComponent implements OnInit {
 
 	ngOnInit() {
 		// TODO optimize uid
-		this.myDocs$ = this.docService.getMyDocsObservable(this.uid)
+		// this.myDocs$ = this.docService.getMyDocsObservable(this.uid)
 
 	}
 

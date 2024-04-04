@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
-import firebase from "firebase/compat";
+import {Injectable} from "@angular/core";
+import firebase from "firebase/compat/app";
 import {Observable, of, switchMap} from "rxjs";
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {AngularFirestore, AngularFirestoreDocument} from "@angular/fire/compat/firestore";
@@ -36,70 +36,38 @@ export class AuthService {
 		)
 	}
 
-	async googleSignIn() {
+	googleSignIn() {
 		const provider = new firebase.auth.GoogleAuthProvider();
-		const credential = await this.afAuth.signInWithPopup(provider);
-		return this.updateUserData(credential.user);
-	}
-
-	updateUserData(user: any) {
-		// Sets user data to firestore on login
-		const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
-
-		const data = {
-			uid: user.uid,
-			email: user.email,
-			displayName: user.displayName,
-			// admin: user.admin
-		}
-
-		return userRef.set(data, {merge: true})
-
+		return this.oAuthLogin(provider);
 	}
 
 	async signOut() {
-		await this.afAuth.signOut();
-		this.router.navigate(['/home']);
+		await this.afAuth.signOut().then(() => {
+			this.router.navigate(['/home']);
+		});
 	}
 
-	// signIn(params: any) {
-	// 	return from(this.afAuth.signInWithEmailAndPassword(
-	// 			params.email, params.password
-	// 		)
-	// 	).pipe(
-	// 		catchError((error: FirebaseError) =>
-	// 			throwError(() => new Error(this.translateFirebaseErrorMessage(error)))
-	// 		)
-	// 	);
-	// }
+	private async oAuthLogin(provider: any) {
+		return this.afAuth.signInWithPopup(provider)
+			.then((credential) => {
+				this.updateUserData(credential.user);
+			});
+	}
 
-	// updateUserProfile(user: User, username: string) {
-	// 	return from(user.updateProfile({
-	// 		displayName: username,
-	// 		photoURL: null
-	// 	}));
-	// }
-
-	// registerUser(params: any) {
-	// 	return from(this.afAuth.createUserWithEmailAndPassword(
-	// 		params.email, params.password
-	// 	)).pipe(
-	// 		catchError((error: FirebaseError) =>
-	// 			throwError(() => new Error(this.translateFirebaseErrorMessage(error)))
-	// 		)
-	// 	);
-	// }
-
-	// private translateFirebaseErrorMessage({code, message}: FirebaseError) {
-	// 	if (code === "auth/user-not-found") {
-	// 		return "User not found.";
-	// 	}
-	// 	if (code === "auth/invalid-credential") {
-	// 		return "Invalid credentials.";
-	// 	}
-	// 	if (code === "auth/wrong-password") {
-	// 		return "User not found.";
-	// 	}
-	// 	return message;
-	// }
+	private updateUserData(user: any) {
+		// Sets user data to firestore on login
+		const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
+		userRef.ref.get().then((doc) => {
+			if (!doc.exists) {
+				const data = {
+					uid: user.uid,
+					email: user.email,
+					displayName: user.displayName,
+					admin: false
+				}
+				userRef.set(data, {merge: true}).then(() => console.log('User created!'))
+			}
+			this.router.navigate(['/blog'])
+		})
+	}
 }
