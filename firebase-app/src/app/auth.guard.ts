@@ -7,6 +7,7 @@ import {AuthService} from './services/auth.service';
 @Injectable({
 	providedIn: 'root'
 })
+//TODO maybe could be done with firebase AuthGuard
 export class AuthGuard implements CanActivate {
 
 	constructor(@Inject(AuthService) private readonly authService: AuthService,
