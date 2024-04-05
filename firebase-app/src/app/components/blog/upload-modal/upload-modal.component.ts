@@ -1,5 +1,4 @@
 import {Component, Inject} from '@angular/core';
-import {AuthService} from "../../../services/auth.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {FormBuilder, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
@@ -23,7 +22,6 @@ export class UploadModalComponent {
 	constructor(
 		private dialogRef: MatDialogRef<UploadModalComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: DialogData,
-		private authService: AuthService,
 		private docsService: DocsService,
 		private formBuilder: FormBuilder,
 		public snackBar: MatSnackBar
@@ -34,9 +32,9 @@ export class UploadModalComponent {
 		if (this.uploadForm.valid) {
 			this.formInProgress(true)
 			this.docsService.createDoc({
-				creator: this.data.username,
-				text: this.uploadForm.value.text!,
-				uid: this.data.uid
+				uid: this.data.uid,
+				creator: this.data.displayName,
+				text: this.uploadForm.value.text!
 			}).then(() => {
 				this.formInProgress(false);
 				this.closeModal()

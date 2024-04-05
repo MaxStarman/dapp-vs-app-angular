@@ -1,54 +1,78 @@
 <div class="container">
-
 	<div class="card mt-4">
-		<mat-tab-group>
-			<mat-tab label="My">
-				<div class="container mt-3 mb-3">
-					<table [dataSource]="myDocs$" mat-table>
-						<ng-container matColumnDef="creator">
-							<th *matHeaderCellDef mat-header-cell>Creator</th>
-							<td *matCellDef="let doc" mat-cell>{{ doc.data.creator }}</td>
-						</ng-container>
+		<ng-container *ngIf="authService.user$ | async as user; else loading">
+			<mat-tab-group>
+				<mat-tab label="My">
+					<div class="container mt-3 mb-3">
+						<table [dataSource]="myDocs$" mat-table>
+							<ng-container matColumnDef="creator">
+								<th *matHeaderCellDef mat-header-cell>Creator</th>
+								<td *matCellDef="let doc" mat-cell>
+									{{ doc.data.creator }}
+								</td>
+							</ng-container>
 
-						<ng-container matColumnDef="text">
-							<th *matHeaderCellDef mat-header-cell>Text</th>
-							<td *matCellDef="let doc" mat-cell>
-								<div
-									class="d-flex justify-content-between align-items-center"
-								>
-									{{ doc.data.text }}
-									<app-button
-										(click)="deleteEntry(doc)"
-										[classList]="'m-2'"
+							<ng-container matColumnDef="text">
+								<th *matHeaderCellDef mat-header-cell>Text</th>
+								<td *matCellDef="let doc" mat-cell>
+									<div
+										class="d-flex justify-content-between align-items-center"
 									>
-										<i *ngIf="!inProgress$" class="fa-solid fa-trash-can"></i>
-									</app-button>
-								</div>
+										{{ doc.data.text }}
+										<app-button
+											(click)="deleteEntry(doc)"
+											[classList]="'m-2'"
+										>
+											<i *ngIf="!inProgress$" class="fa-solid fa-trash-can"></i>
+										</app-button>
+									</div>
 
-							</td>
-						</ng-container>
-						<tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-						<tr *matRowDef="let doc; columns: displayedColumns" mat-row></tr>
-					</table>
-				</div>
-			</mat-tab>
-			<mat-tab label="All">
-				<div class="container mt-3 mb-3">
-					<table [dataSource]="allDocs$" mat-table>
-						<ng-container matColumnDef="creator">
-							<th *matHeaderCellDef mat-header-cell>Creator</th>
-							<td *matCellDef="let doc" mat-cell>{{ doc.data.creator }}</td>
-						</ng-container>
+								</td>
+							</ng-container>
 
-						<ng-container matColumnDef="text">
-							<th *matHeaderCellDef mat-header-cell>Text</th>
-							<td *matCellDef="let doc" mat-cell>{{ doc.data.text }}</td>
-						</ng-container>
-						<tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-						<tr *matRowDef="let doc; columns: displayedColumns" mat-row></tr>
-					</table>
-				</div>
-			</mat-tab>
-		</mat-tab-group>
+							<tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+							<tr *matRowDef="let doc; columns: displayedColumns" mat-row></tr>
+						</table>
+					</div>
+				</mat-tab>
+				<mat-tab label="All">
+					<div class="container mt-3 mb-3">
+						<table [dataSource]="allDocs$" mat-table>
+							<ng-container matColumnDef="creator">
+								<th *matHeaderCellDef mat-header-cell>Creator</th>
+								<td *matCellDef="let doc" mat-cell>
+									{{ doc.data.creator }}
+								</td>
+							</ng-container>
+
+							<ng-container matColumnDef="text">
+								<th *matHeaderCellDef mat-header-cell>Text</th>
+								<td *matCellDef="let doc" mat-cell>
+									<div
+										class="d-flex justify-content-between align-items-center"
+									>
+										{{ doc.data.text }}
+										<app-button
+											(click)="deleteEntry(doc)"
+											*ngIf="user.admin"
+											[classList]="'m-2'"
+										>
+											<i *ngIf="!inProgress$" class="fa-solid fa-trash-can"></i>
+										</app-button>
+									</div>
+								</td>
+							</ng-container>
+
+							<tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+							<tr *matRowDef="let doc; columns: displayedColumns" mat-row></tr>
+						</table>
+					</div>
+				</mat-tab>
+			</mat-tab-group>
+		</ng-container>
 	</div>
 </div>
+
+<ng-template #loading>
+	<h1>Loading..</h1>
+</ng-template>

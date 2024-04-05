@@ -1,11 +1,11 @@
-<ng-container *ngIf="authService.user$ | async else signInAgain">
+<ng-container *ngIf="authService.user$ | async as user; else signInAgain">
 	<div class="container">
 		<h1>
-			Welcome <b>{{ displayName }}</b>. <br>
+			Welcome <b>{{ user.displayName }}</b>. <br>
 			You are logged in as
-			<b *ngIf="admin">admin</b>
-			<b *ngIf="!admin">user</b>
-			with ID <b>{{ uid }}</b>.
+			<b *ngIf="user.admin">admin</b>
+			<b *ngIf="!user.admin">user</b>
+			with ID <b>{{ user.uid }}</b>.
 		</h1>
 
 	</div>
@@ -20,8 +20,7 @@
 
 
 	<display-content
-		*ngIf="!inProgress"
-		[uid]="uid"
+		[uid]="user.uid"
 	></display-content>
 </ng-container>
 

@@ -6,7 +6,7 @@ import {take} from "rxjs";
 
 export interface DialogData {
 	uid: string;
-	username: string;
+	displayName: string;
 }
 
 @Component({
@@ -15,11 +15,8 @@ export interface DialogData {
 	styleUrls: ['./blog.component.scss']
 })
 export class BlogComponent implements OnInit {
-	inProgress = true;
-
-	displayName?: string;
 	uid?: string;
-	admin?: boolean;
+	displayName?: string;
 
 	constructor(
 		public authService: AuthService,
@@ -27,13 +24,11 @@ export class BlogComponent implements OnInit {
 	) {
 	}
 
-	// TODO dodaj nek loading card oz. nek inProgress
 	ngOnInit(): void {
 		this.authService.user$?.subscribe((user) => {
 			if (user) {
 				this.uid = user.uid;
 				this.displayName = user.displayName;
-				this.admin = user.admin
 			}
 		})
 	}
@@ -44,7 +39,7 @@ export class BlogComponent implements OnInit {
 			width: '600px',
 			data: {
 				uid: this.uid,
-				username: this.displayName
+				displayName: this.displayName
 			}
 		});
 		dialogRef
