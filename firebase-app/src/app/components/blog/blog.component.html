@@ -7,7 +7,6 @@
 			<b *ngIf="!user.admin">user</b>
 			with ID <b>{{ user.uid }}</b>.
 		</h1>
-
 	</div>
 
 	<div class="container">
@@ -25,5 +24,7 @@
 </ng-container>
 
 <ng-template #signInAgain>
-	<h1>Session has expired. Sing in again.</h1>
+	<div class="container">
+		<h1>Session has expired. Sing in again.</h1>
+	</div>
 </ng-template>
