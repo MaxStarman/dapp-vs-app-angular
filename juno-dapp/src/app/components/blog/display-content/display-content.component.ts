@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Entry} from "../../../models/entry";
 import {Doc} from "@junobuild/core";
 import {Observable} from "rxjs";
@@ -12,6 +12,9 @@ import {AuthService} from "../../../services/auth.service";
 	styleUrls: ['./display-content.component.scss']
 })
 export class DisplayContentComponent implements OnInit {
+
+	@Input()
+	isAdmin!: boolean
 
 	readonly displayedColumns: string[] = ['creator', 'text', 'url'];
 

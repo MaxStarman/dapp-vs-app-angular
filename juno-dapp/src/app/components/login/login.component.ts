@@ -4,7 +4,6 @@ import {InternetIdentityProvider, NFIDProvider, signIn, signOut} from '@junobuil
 import {UserData} from "../../models/userData";
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {DocService} from "../../services/doc.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 
@@ -22,7 +21,6 @@ export class LoginComponent implements OnInit {
 
 	constructor(
 		public authService: AuthService,
-		private docService: DocService,
 		private router: Router,
 		private fb: FormBuilder,
 		public snackBar: MatSnackBar
@@ -85,7 +83,6 @@ export class LoginComponent implements OnInit {
 	}
 
 	private setFormControls() {
-
 		this.userLoginForm = this.fb.group({
 			username: [this.userModel.username, Validators.required]
 		});

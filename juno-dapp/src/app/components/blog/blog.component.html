@@ -17,7 +17,9 @@
 		</app-button>
 	</div>
 
-	<display-content></display-content>
+	<display-content
+		[isAdmin]="currUser.data.admin"
+	></display-content>
 </ng-container>
 
 <ng-template #loading>
