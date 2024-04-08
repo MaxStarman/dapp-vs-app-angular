@@ -1,21 +1,27 @@
-<div class="container">
-	<h1 *ngIf="singedIn$ | async else signInAgain">
-		Welcome <b>{{username}}</b>. <br>
-		You are logged in as
-		<!--                <b *ngIf="user.admin">admin</b>-->
-		<b>user</b> with ID {{userId}}.
-	</h1>
-	<ng-template #signInAgain>
-		<h1>Session has expired. Sing in again.</h1>
-	</ng-template>
-</div>
+<ng-container *ngIf="authService.currentUser$ | async as currUser else loading">
+	<div class="container">
+		<h1>
+			Welcome <b>{{ currUser.data.username }}</b>. <br>
+			You are logged in as
+			<b *ngIf="currUser.data.admin">admin</b>
+			<b *ngIf="!currUser.data.admin">user</b>
+			with ID <b>{{ currUser.data.uid }}</b>.
+		</h1>
+	</div>
 
-<div class="container">
-	<app-button
-		(click)="openModal()"
-	>
-		Add image
-	</app-button>
-</div>
+	<div class="container">
+		<app-button
+			(click)="openModal()"
+		>
+			Add image
+		</app-button>
+	</div>
 
-<display-content></display-content>
+	<display-content></display-content>
+</ng-container>
+
+<ng-template #loading>
+	<div class="container">
+		<h1>Loading...</h1>
+	</div>
+</ng-template>

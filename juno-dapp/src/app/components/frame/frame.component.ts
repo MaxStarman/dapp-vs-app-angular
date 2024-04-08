@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthService} from "../../services/auth.service";
 import {signOut} from "@junobuild/core";
 
@@ -11,8 +11,7 @@ export class FrameComponent {
 
 
 	readonly signOut = signOut;
-	readonly signedIn$ = this.authService.signedIn$;
 
-	constructor(@Inject(AuthService) private authService: AuthService) {
+	constructor(public authService: AuthService) {
 	}
 }

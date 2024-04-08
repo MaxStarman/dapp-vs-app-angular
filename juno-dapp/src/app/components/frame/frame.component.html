@@ -6,7 +6,7 @@
 				<h1>Juno dBlog</h1>
 			</div>
 		</a>
-		<a *ngIf="signedIn$ | async"
+		<a *ngIf="authService.signedIn$ | async"
 		   routerLink="/home"
 		>
 			<app-button (click)="signOut()"

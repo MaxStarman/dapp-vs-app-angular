@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {UploadModalComponent} from "./upload-modal/upload-modal.component";
@@ -19,16 +19,16 @@ export class BlogComponent implements OnInit {
 	readonly singedIn$ = this.authService.signedIn$
 
 	constructor(
-		@Inject(AuthService) private authService: AuthService,
-		@Inject(MatDialog) private dialog: MatDialog,
-		@Inject(DocService) private docService: DocService,
+		public authService: AuthService,
+		private dialog: MatDialog,
+		private docService: DocService,
 		public modalService: NgbModal
 	) {
 	}
 
 	ngOnInit(): void {
 		this.userId = this.authService.userId
-		this.username = this.docService.username$.value
+		this.username = this.authService.username$.value
 	}
 
 	openModal() {

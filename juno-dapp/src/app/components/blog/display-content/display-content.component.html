@@ -37,12 +37,9 @@
 										(click)="deleteEntry(doc)"
 										[classList]="'m-2'"
 									>
-										<i *ngIf="!inProgress$" class="fa-solid fa-trash-can"></i>
-										<!--										TODO optional-->
-										<!--										<mat-spinner-->
-										<!--											[diameter]="10"-->
-										<!--											*ngIf="inProgress$ && doc == delDoc">-->
-										<!--										</mat-spinner>-->
+										<ng-container *ngIf="!inProgress$; else loader">
+											<i class="fa-solid fa-trash-can"></i>
+										</ng-container>
 									</app-button>
 								</div>
 
@@ -85,13 +82,17 @@
 											fontIcon="open_in_new"
 										></mat-icon>
 									</a>
-									<!--TODO delete btn only when loged in as ADMIN-->
-									<!--									<app-button-->
-									<!--										(click)="deleteEntry(doc)"-->
-									<!--										[classList]="'m-2'"-->
-									<!--									>-->
-									<!--										<i class="fa-solid fa-trash-can"></i>-->
-									<!--									</app-button>-->
+									<ng-container *ngIf="authService.currentUser$ | async as currUser">
+										<app-button
+											(click)="deleteEntry(doc)"
+											*ngIf="currUser.data.admin"
+											[classList]="'m-2'"
+										>
+											<ng-container *ngIf="!inProgress$; else loader">
+												<i class="fa-solid fa-trash-can"></i>
+											</ng-container>
+										</app-button>
+									</ng-container>
 								</div>
 
 							</td>
@@ -103,6 +104,11 @@
 				</div>
 			</mat-tab>
 		</mat-tab-group>
-
 	</div>
 </div>
+
+<ng-template #loader>
+	<mat-spinner
+		[diameter]="20"
+	></mat-spinner>
+</ng-template>

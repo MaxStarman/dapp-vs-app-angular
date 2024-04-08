@@ -1,4 +1,4 @@
-@import 'src/variables.scss';
+@import "../../../variables.scss";
 
 button {
     padding: 10px;
@@ -13,7 +13,7 @@ button {
         background-color:$btn-hover-color;
     }
     &:disabled {
-        pointer-events: none;
+		cursor: auto;
         background-color: $btn-disabled-color;
         opacity: 0.65 ;
     }

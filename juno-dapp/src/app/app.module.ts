@@ -13,7 +13,6 @@ import {HomeComponent} from './components/home/home.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
 import {MatIconModule} from '@angular/material/icon';
-import {SharedModule} from './shared/shared.module';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -24,6 +23,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatButtonModule} from "@angular/material/button";
 import {MatTableModule} from "@angular/material/table";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {ButtonComponent} from "./components/button/button.component";
 
 @NgModule({
 	declarations: [
@@ -33,7 +33,8 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 		DisplayContentComponent,
 		FrameComponent,
 		HomeComponent,
-		UploadModalComponent
+		UploadModalComponent,
+		ButtonComponent
 	],
 	imports: [
 		CommonModule,
@@ -45,7 +46,6 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 		BrowserAnimationsModule,
 		AppRoutingModule,
 		MatIconModule,
-		SharedModule,
 		MatTabsModule,
 		MatFormFieldModule,
 		MatInputModule,
