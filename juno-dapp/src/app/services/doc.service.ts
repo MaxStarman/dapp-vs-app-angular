@@ -1,4 +1,4 @@
-import {Inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {
 	BehaviorSubject,
 	combineLatest,
@@ -12,19 +12,16 @@ import {
 	switchMap,
 	take
 } from "rxjs";
-import {deleteAsset, deleteDoc, Doc, getDoc, listDocs, setDoc, uploadFile, User} from "@junobuild/core";
+import {deleteAsset, deleteDoc, Doc, listDocs, setDoc, uploadFile, User} from "@junobuild/core";
 import {AuthService} from "./auth.service";
 import {Entry} from "../models/entry";
 import {nanoid} from "nanoid";
 import {FormGroup} from "@angular/forms";
-import {UserModel} from "../models/userModel";
 
 @Injectable({
 	providedIn: 'root'
 })
 export class DocService {
-
-	username$ = new BehaviorSubject<string>('')
 
 	inProgress$ = new BehaviorSubject<boolean>(false)
 
@@ -63,7 +60,7 @@ export class DocService {
 		shareReplay({bufferSize: 1, refCount: true})
 	);
 
-	constructor(@Inject(AuthService) private readonly authService: AuthService) {
+	constructor(private authService: AuthService) {
 	}
 
 	reload(value?: any) {
@@ -99,23 +96,6 @@ export class DocService {
 				},
 			},
 		});
-	}
-
-	async setUserDoc(userModel: UserModel) {
-		await setDoc<UserModel>({
-			collection: "users",
-			doc: {
-				key: userModel.id,
-				data: userModel
-			}
-		});
-	}
-
-	async getUserDoc(userId: string) {
-		return await getDoc<UserModel>({
-			collection: 'users',
-			key: userId
-		})
 	}
 
 	async deleteDocAndAsset(doc: Doc<Entry>, imgFullPath: string, admin: boolean) {

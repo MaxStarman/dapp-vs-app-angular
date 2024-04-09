@@ -1,10 +1,9 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../services/auth.service";
 import {InternetIdentityProvider, NFIDProvider, signIn, signOut} from '@junobuild/core';
-import {UserModel} from "../../models/userModel";
+import {UserData} from "../../models/userData";
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {DocService} from "../../services/doc.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 
@@ -16,16 +15,12 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 export class LoginComponent implements OnInit {
 
 	userLoginForm!: FormGroup
-	userModel = new UserModel('', '', false);
+	userModel: UserData = {uid: '', username: '', admin: false};
 
 	readonly signedIn$ = this.authService.signedIn$;
-	readonly user$ = this.authService.user$;
-
-	readonly signOut = signOut;
 
 	constructor(
-		@Inject(AuthService) private authService: AuthService,
-		@Inject(DocService) private docService: DocService,
+		public authService: AuthService,
 		private router: Router,
 		private fb: FormBuilder,
 		public snackBar: MatSnackBar
@@ -37,9 +32,10 @@ export class LoginComponent implements OnInit {
 			domain: "ic0.app"
 		})
 	}).then(() => {
+		console.log('ii sign in')
 		this.checkUserStatus()
 	}).catch(err => {
-		console.log(err)
+		console.error(err)
 	});
 	readonly singInNFID = async () => await signIn({
 		provider: new NFIDProvider({
@@ -49,7 +45,7 @@ export class LoginComponent implements OnInit {
 	}).then(() => {
 		this.checkUserStatus()
 	}).catch(err => {
-		console.log(err)
+		console.error(err)
 	});
 
 	ngOnInit() {
@@ -58,9 +54,10 @@ export class LoginComponent implements OnInit {
 
 	async checkUserStatus() {
 		this.userModel = this.userLoginForm.value;
-		this.userModel.id = this.authService.userId;
+		this.userModel.uid = this.authService.userId;
+		this.userModel.admin = false;
 
-		this.docService.getUserDoc(this.userModel.id).then((user) => {
+		this.authService.getUserDoc(this.userModel.uid).then((user) => {
 			// check for the same username
 			if (user && user.data.username != this.userModel.username) {
 				// singOut if is not the same as in DB
@@ -73,15 +70,15 @@ export class LoginComponent implements OnInit {
 			} else {
 				// add user to db
 				if (!user) {
-					this.docService.setUserDoc(this.userModel)
+					this.authService.setUserDoc(this.userModel)
 				}
-				this.docService.username$.next(this.userModel.username)
-				this.redirectToBlog()
+				this.authService.username$.next(this.userModel.username)
+				// this.navigateToBlog()
 			}
 		})
 	}
 
-	private redirectToBlog() {
+	navigateToBlog() {
 		this.router?.navigate(['/blog']);
 	}
 

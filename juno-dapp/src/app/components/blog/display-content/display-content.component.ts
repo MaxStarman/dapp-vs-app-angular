@@ -1,9 +1,10 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Entry} from "../../../models/entry";
 import {Doc} from "@junobuild/core";
 import {Observable} from "rxjs";
 import {DocService} from "../../../services/doc.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
 	selector: 'display-content',
@@ -11,6 +12,9 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 	styleUrls: ['./display-content.component.scss']
 })
 export class DisplayContentComponent implements OnInit {
+
+	@Input()
+	isAdmin!: boolean
 
 	readonly displayedColumns: string[] = ['creator', 'text', 'url'];
 
@@ -22,8 +26,11 @@ export class DisplayContentComponent implements OnInit {
 
 	delDoc?: Doc<Entry>;
 
-	constructor(@Inject(DocService) private readonly docService: DocService,
-				private snackBar: MatSnackBar) {
+	constructor(
+		public authService: AuthService,
+		private docService: DocService,
+		private snackBar: MatSnackBar
+	) {
 	}
 
 	ngOnInit() {
@@ -32,7 +39,6 @@ export class DisplayContentComponent implements OnInit {
 		})
 	}
 
-	// TODO navedn user brise samo svoje (My tab), admin lahko vse (All tab)
 	deleteEntry(doc: Doc<Entry>) {
 		this.docService.inProgress$.next(true);
 		this.delDoc = doc;

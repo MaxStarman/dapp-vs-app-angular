@@ -42,10 +42,11 @@ export class UploadModalComponent implements OnInit {
 		if (this.uploadForm.valid) {
 			this.docService.inProgress$.next(true);
 			this.uploadForm.disable()
-			this.authService.user$
+			this.authService.currentUser$
 				.pipe(
 					filter((user) => user !== null),
-					switchMap((user) => from(this.docService.uploadAndSetEntry(user as User, this.file, this.uploadForm, this.docService.username$.value))),
+					switchMap((user) => from(
+						this.docService.uploadAndSetEntry(user as User, this.file, this.uploadForm, user!!.data.username))),
 					take(1),
 					catchError((err: unknown) => {
 						console.error(err);

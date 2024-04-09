@@ -14,12 +14,3 @@
 </div>
 
 <app-login></app-login>
-
-<div class="container d-flex justify-content-center my-5">
-	<app-button
-		(click)="navigateToBlog()"
-		*ngIf="singedIn$| async"
-	>
-		Go to blog
-	</app-button>
-</div>
