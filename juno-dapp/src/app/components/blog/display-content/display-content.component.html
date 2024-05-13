@@ -2,7 +2,7 @@
 
 	<div class="card mt-4">
 		<mat-tab-group>
-			<mat-tab label="My">
+			<mat-tab label="My documents">
 				<div class="container mt-3 mb-3">
 					<table [dataSource]="(myDocs$ | async)!" mat-table>
 						<ng-container matColumnDef="creator">
@@ -51,7 +51,7 @@
 					</table>
 				</div>
 			</mat-tab>
-			<mat-tab label="All">
+			<mat-tab label="All documents">
 				<div class="container mt-3 mb-3">
 					<table [dataSource]="(allDocs$ | async)!" mat-table>
 						<ng-container matColumnDef="creator">

@@ -2,7 +2,7 @@
 	<div class="card mt-4">
 		<ng-container *ngIf="authService.user$ | async as user; else loading">
 			<mat-tab-group>
-				<mat-tab label="My">
+				<mat-tab label="My documents">
 					<div class="container mt-3 mb-3">
 						<table [dataSource]="myDocs$" mat-table>
 							<ng-container matColumnDef="creator">
@@ -35,7 +35,7 @@
 						</table>
 					</div>
 				</mat-tab>
-				<mat-tab label="All">
+				<mat-tab label="All documents">
 					<div class="container mt-3 mb-3">
 						<table [dataSource]="allDocs$" mat-table>
 							<ng-container matColumnDef="creator">

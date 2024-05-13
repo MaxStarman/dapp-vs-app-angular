@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {DocsService} from "../../../services/docs.service";
+import {DocService} from "../../../services/doc.service";
 import {Observable} from "rxjs";
 import {AuthService} from "../../../services/auth.service";
 
@@ -22,7 +22,7 @@ export class DisplayContentComponent implements OnInit {
 
 	inProgress$: boolean = false
 
-	constructor(public docService: DocsService,
+	constructor(public docService: DocService,
 				private snackBar: MatSnackBar,
 				public authService: AuthService) {
 	}

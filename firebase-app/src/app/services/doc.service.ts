@@ -1,20 +1,19 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection, QueryFn} from "@angular/fire/compat/firestore";
 import {Entry} from "../models/entry";
-import {AuthService} from "./auth.service";
 import {map, Observable} from "rxjs";
 
 @Injectable({
 	providedIn: 'root'
 })
-export class DocsService {
+export class DocService {
 
 	firestoreRef: AngularFirestoreCollection<Entry>;
 
 	private dbPath = '/entries'
 
-	constructor(private firestore: AngularFirestore,
-				private authService: AuthService
+	constructor(
+		private firestore: AngularFirestore
 	) {
 		this.firestoreRef = firestore.collection(this.dbPath)
 	}

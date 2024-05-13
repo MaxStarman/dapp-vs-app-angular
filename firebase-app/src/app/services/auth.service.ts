@@ -12,7 +12,6 @@ import {Router} from "@angular/router";
 })
 export class AuthService {
 
-	// logged out = null
 	user$: Observable<User> | null;
 
 	constructor(

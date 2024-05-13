@@ -2,7 +2,7 @@ import {Component, Inject} from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {FormBuilder, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {DocsService} from "../../../services/docs.service";
+import {DocService} from "../../../services/doc.service";
 import {DialogData} from "../blog.component";
 
 @Component({
@@ -22,7 +22,7 @@ export class UploadModalComponent {
 	constructor(
 		private dialogRef: MatDialogRef<UploadModalComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: DialogData,
-		private docsService: DocsService,
+		private docsService: DocService,
 		private formBuilder: FormBuilder,
 		public snackBar: MatSnackBar
 	) {

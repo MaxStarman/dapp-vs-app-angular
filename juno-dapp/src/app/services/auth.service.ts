@@ -23,8 +23,6 @@ export class AuthService {
 			map((user) => user !== null)
 		);
 
-	// userData$: Observable<any>
-
 	constructor() {
 		this.currentUser$ = this.user$.pipe(
 			switchMap((user) => {
