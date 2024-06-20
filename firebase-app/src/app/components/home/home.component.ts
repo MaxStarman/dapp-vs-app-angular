@@ -9,8 +9,6 @@ import {Router} from "@angular/router";
 })
 export class HomeComponent {
 
-	readonly singedIn$ = true
-
 	constructor(public authService: AuthService,
 				private router: Router) {
 	}

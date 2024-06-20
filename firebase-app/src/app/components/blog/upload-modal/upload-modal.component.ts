@@ -13,16 +13,16 @@ import {DialogData} from "../blog.component";
 export class UploadModalComponent {
 
 	uploadForm = this.formBuilder.group({
-		text: ['', Validators.required]
+		text: ['', Validators.required],
+		fileInput: ['', Validators.required]
 	});
 
-	inProgress$: boolean = false;
-
+	file: File | undefined;
 
 	constructor(
 		private dialogRef: MatDialogRef<UploadModalComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: DialogData,
-		private docsService: DocService,
+		public docsService: DocService,
 		private formBuilder: FormBuilder,
 		public snackBar: MatSnackBar
 	) {
@@ -30,24 +30,27 @@ export class UploadModalComponent {
 
 	async onSubmit() {
 		if (this.uploadForm.valid) {
-			this.formInProgress(true)
-			this.docsService.createDoc({
-				uid: this.data.uid,
-				creator: this.data.displayName,
-				text: this.uploadForm.value.text!
-			}).then(() => {
-				this.formInProgress(false);
-				this.closeModal()
-				this.snackBar.open('Success', "OK", {
-					duration: 5000
-				});
-			}).catch((err) => {
-				this.formInProgress(false)
-				this.snackBar.open('Error', 'Dismiss', {
-					panelClass: ['error'],
-					duration: 5000
-				});
-			})
+			this.docsService.uploadFileAndCreateDoc(
+				{
+					uid: this.data.uid,
+					creator: this.data.displayName,
+					text: this.uploadForm.value.text!
+				},
+				this.file!).subscribe({
+					complete: () => {
+						this.closeModal();
+						this.snackBar.open('Success', "OK", {
+							duration: 5000
+						});
+					},
+					error: (error) => {
+						this.snackBar.open('Error', 'Dismiss', {
+							panelClass: ['error'],
+							duration: 5000
+						});
+					}
+				}
+			)
 		}
 	}
 
@@ -55,8 +58,8 @@ export class UploadModalComponent {
 		this.dialogRef.close(result)
 	}
 
-	private formInProgress(isInProgress: boolean) {
-		this.inProgress$ = isInProgress;
-		isInProgress ? this.uploadForm.disable() : this.uploadForm.enable();
+	async onFileSelected($event: Event) {
+		const target = $event.target as HTMLInputElement;
+		this.file = target.files?.[0];
 	}
 }

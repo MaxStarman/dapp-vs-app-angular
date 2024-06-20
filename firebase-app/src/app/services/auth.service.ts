@@ -37,6 +37,7 @@ export class AuthService {
 
 	googleSignIn() {
 		const provider = new firebase.auth.GoogleAuthProvider();
+		// await this.afAuth.signInWithPopup(provider)
 		return this.oAuthLogin(provider);
 	}
 

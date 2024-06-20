@@ -46,7 +46,7 @@
 	</div>
 	<app-button
 		(click)="navigateToBlog()"
-		*ngIf="signedIn$ | async"
+		*ngIf="authService.signedIn$ | async"
 	>
 		Go to blog
 	</app-button>

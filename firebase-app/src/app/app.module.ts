@@ -8,7 +8,7 @@ import {environment} from "../env/environment";
 import {RouterOutlet} from "@angular/router";
 import {AppRoutingModule} from "./app-routing.module";
 import {CommonModule} from "@angular/common";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {LoginComponent} from './components/login/login.component';
 import {BlogComponent} from './components/blog/blog.component';
 import {HomeComponent} from './components/home/home.component';
@@ -28,6 +28,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatIconModule} from "@angular/material/icon";
 import {AngularFireAuthModule} from "@angular/fire/compat/auth";
 import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
+import {AngularFireStorageModule} from "@angular/fire/compat/storage";
 
 
 @NgModule({
@@ -52,6 +53,7 @@ import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
 		AngularFireModule.initializeApp(environment.firebase),
 		AngularFireAuthModule,
 		AngularFirestoreModule,
+		AngularFireStorageModule,
 		MatTabsModule,
 		MatFormFieldModule,
 		MatInputModule,
@@ -61,6 +63,9 @@ import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
 		MatButtonModule,
 		MatTableModule,
 		MatProgressSpinnerModule,
+		MatIconModule,
+		FormsModule,
+		ReactiveFormsModule,
 		MatIconModule
 	],
 	providers: [],

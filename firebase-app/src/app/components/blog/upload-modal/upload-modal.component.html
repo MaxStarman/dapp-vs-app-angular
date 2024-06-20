@@ -11,6 +11,15 @@
 					Required.
 				</mat-error>
 			</mat-form-field>
+			<button (click)="fileInput.click()" mat-raised-button type="button">Choose File</button>
+			<input #fileInput
+				   (change)="onFileSelected($event)"
+				   accept="image/png, image/gif, image/jpeg"
+				   formControlName="fileInput"
+				   hidden
+				   id="file"
+				   type="file">
+			<span class="ms-3">{{ file?.name }}</span>
 		</form>
 	</mat-dialog-content>
 
@@ -30,11 +39,13 @@
 
 	</mat-dialog-actions>
 
-	<div class="spinner">
-		<mat-spinner
-			*ngIf="inProgress$"
-			[diameter]="50"
-		></mat-spinner>
+	<div *ngIf="this.docsService.percentage | async as pct"
+		 class="mat-mdc-form-field-flex justify-content-center mt-2"
+	>
+		<div *ngIf="pct != 100">
+			<progress [value]="pct" max="100"></progress>
+			{{ pct | number }}%
+		</div>
 	</div>
 
 </div>

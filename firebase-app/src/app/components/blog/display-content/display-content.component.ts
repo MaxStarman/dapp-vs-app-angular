@@ -33,7 +33,7 @@ export class DisplayContentComponent implements OnInit {
 	}
 
 	deleteEntry(doc: any) {
-		this.docService.deleteDoc(doc.id).then(() => {
+		this.docService.deleteFileAndDoc(doc.id, doc.data.imagePath).then(() => {
 			this.snackBar.open('Document deleted', 'OK', {
 				duration: 5000
 			})

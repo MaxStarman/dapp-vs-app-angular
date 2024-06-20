@@ -1,16 +1,6 @@
 <div class="container d-flex justify-content-center">
-	<ng-container *ngIf="authService.user$ | async as user; else login">
-	<pre>
-		{{ user | json }}
-  	</pre>
-
-		<hr>
-		<button (click)="authService.signOut()" class="mat-mdc-button">Sign Out</button>
-
-	</ng-container>
-</div>
-<ng-template #login>
 	<app-button
+		*ngIf="!(authService.user$ | async)"
 		(click)="authService.googleSignIn()"
 	>
 		<span class="d-inline-flex align-items-center">
@@ -18,4 +8,6 @@
 			<i class="fa-brands fa-google mx-2"></i>
 		</span>
 	</app-button>
-</ng-template>
+</div>
+
+

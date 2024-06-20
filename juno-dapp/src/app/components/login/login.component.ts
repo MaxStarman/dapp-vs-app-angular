@@ -6,7 +6,6 @@ import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
-
 @Component({
 	selector: 'app-login',
 	templateUrl: './login.component.html',
@@ -14,10 +13,11 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 })
 export class LoginComponent implements OnInit {
 
+	// readonly signOut = signOut;
+	// readonly signIn = signIn;
+
 	userLoginForm!: FormGroup
 	userModel: UserData = {uid: '', username: '', admin: false};
-
-	readonly signedIn$ = this.authService.signedIn$;
 
 	constructor(
 		public authService: AuthService,

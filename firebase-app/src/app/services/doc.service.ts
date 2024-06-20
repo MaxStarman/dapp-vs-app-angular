@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection, QueryFn} from "@angular/fire/compat/firestore";
 import {Entry} from "../models/entry";
-import {map, Observable} from "rxjs";
+import {finalize, map, Observable} from "rxjs";
+import {AngularFireStorage} from "@angular/fire/compat/storage";
 
 @Injectable({
 	providedIn: 'root'
@@ -9,11 +10,13 @@ import {map, Observable} from "rxjs";
 export class DocService {
 
 	firestoreRef: AngularFirestoreCollection<Entry>;
+	percentage!: Observable<any>;
 
 	private dbPath = '/entries'
 
 	constructor(
-		private firestore: AngularFirestore
+		private firestore: AngularFirestore,
+		private storage: AngularFireStorage
 	) {
 		this.firestoreRef = firestore.collection(this.dbPath)
 	}
@@ -50,11 +53,33 @@ export class DocService {
 			);
 	}
 
-	createDoc(entry: Entry) {
-		return this.firestoreRef.add({...entry})
+	uploadFileAndCreateDoc(entry: Entry, file: File) {
+		// TODO upload file before creating doc
+		const path = `${Date.now()}_${file.name}`;
+		const storageRef = this.storage.ref(path);
+
+		// The main task
+		const task = this.storage.upload(path, file);
+
+		this.percentage = task.percentageChanges();
+
+		return task.snapshotChanges().pipe(
+			finalize(() => {
+					storageRef.getDownloadURL().subscribe((downloadURL) => {
+						entry.url = downloadURL
+						entry.imagePath = path
+						this.firestoreRef.add({...entry})
+					})
+
+				}
+			)
+		);
 	}
 
-	deleteDoc(id: string) {
-		return this.firestoreRef.doc(id).delete();
+	async deleteFileAndDoc(id: string, imagePath: string) {
+		const storageRef = this.storage.ref(imagePath)
+		return this.firestoreRef.doc(id).delete().then(() => {
+			storageRef.delete()
+		})
 	}
 }

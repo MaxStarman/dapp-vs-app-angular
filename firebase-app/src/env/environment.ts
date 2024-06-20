@@ -9,3 +9,14 @@ export const environment = {
 		appId: "1:1099449979268:web:89f822441fea5c530a0dd1"
 	}
 };
+
+// Demo configs
+const firebaseConfig = {
+	apiKey: "xxxxx-xxxxx",
+	authDomain: "xxxxx.xxxxxx.com",
+	databaseURL: "https://xxxxxx.xxxxxxxx.app",
+	projectId: "xxxx-xxxx-xxx",
+	storageBucket: "xxxx-xxxx.xxxx.com",
+	messagingSenderId: "9999xxx9999",
+	appId: "xx:xxxxxx:xx:xxxxxxxxxxxxx"
+};
