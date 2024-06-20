@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {initJuno} from '@junobuild/core';
 
 @Component({
@@ -6,7 +6,7 @@ import {initJuno} from '@junobuild/core';
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
 	async ngOnInit() {
 		await initJuno({

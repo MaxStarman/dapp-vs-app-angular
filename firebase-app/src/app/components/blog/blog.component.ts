@@ -1,13 +1,12 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {UploadModalComponent} from "./upload-modal/upload-modal.component";
 import {MatDialog} from "@angular/material/dialog";
 import {take} from "rxjs";
 
 export interface DialogData {
 	uid: string;
-	username: string;
+	displayName: string;
 }
 
 @Component({
@@ -16,28 +15,20 @@ export interface DialogData {
 	styleUrls: ['./blog.component.scss']
 })
 export class BlogComponent implements OnInit {
-
-	username?: string | null | undefined;
-	userId?: string;
-
-	readonly singedIn$ = this.authService.signedIn$;
-
-	inProgress = true;
+	uid?: string;
+	displayName?: string;
 
 	constructor(
-		private authService: AuthService,
-		@Inject(MatDialog) private dialog: MatDialog,
-		public modalService: NgbModal
+		public authService: AuthService,
+		private dialog: MatDialog
 	) {
 	}
 
-	// TODO dodaj nek loading card oz. nek inProgress
 	ngOnInit(): void {
-		this.authService.currentUser.subscribe((user) => {
+		this.authService.user$?.subscribe((user) => {
 			if (user) {
-				this.inProgress = false;
-				this.userId = user?.uid
-				this.username = user?.displayName
+				this.uid = user.uid;
+				this.displayName = user.displayName;
 			}
 		})
 	}
@@ -47,11 +38,10 @@ export class BlogComponent implements OnInit {
 			height: '400px',
 			width: '600px',
 			data: {
-				uid: this.userId,
-				username: this.username
+				uid: this.uid,
+				displayName: this.displayName
 			}
 		});
-
 		dialogRef
 			.afterClosed()
 			.pipe(take(1))

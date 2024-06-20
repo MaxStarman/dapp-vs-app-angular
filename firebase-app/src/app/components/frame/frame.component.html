@@ -6,10 +6,8 @@
 				<h1>Fire Blog</h1>
 			</div>
 		</a>
-		<span *ngIf="(singedIn$ | async)">
-			<app-button (click)="signOut()"
-						type="button"
-			>
+		<span *ngIf="authService.user$ | async">
+			<app-button (click)="authService.signOut()">
 				Sign Out
 			</app-button>
 		</span>

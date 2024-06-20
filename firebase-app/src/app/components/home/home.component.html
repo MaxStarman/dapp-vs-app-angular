@@ -18,7 +18,7 @@
 <div class="container d-flex justify-content-center my-5">
 	<app-button
 		(click)="navigateToBlog()"
-		*ngIf="singedIn$"
+		*ngIf="authService.user$ | async"
 	>
 		Go to blog
 	</app-button>

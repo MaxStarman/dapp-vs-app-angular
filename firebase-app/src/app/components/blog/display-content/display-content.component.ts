@@ -1,9 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Entry} from "../../../models/entry";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {DocsService} from "../../../services/docs.service";
+import {DocService} from "../../../services/doc.service";
 import {Observable} from "rxjs";
-import {FireDoc} from "../../../models/fireDoc";
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
 	selector: 'display-content',
@@ -13,32 +12,28 @@ import {FireDoc} from "../../../models/fireDoc";
 export class DisplayContentComponent implements OnInit {
 
 	@Input()
-	uid?: string;
+	uid!: string;
 
-	readonly displayedColumns: string[] = ['creator', 'text']; // later add url
+	readonly displayedColumns: string[] = ['creator', 'text'];
 
-	allDocs$ = this.docService.getAllDocsObservable();
+	allDocs$!: Observable<any>
 
-	myDocs$ = new Observable<any>();
+	myDocs$!: Observable<any>
 
 	inProgress$: boolean = false
 
-	delDoc?: Entry;
-
-	constructor(private docService: DocsService,
-				private snackBar: MatSnackBar) {
+	constructor(public docService: DocService,
+				private snackBar: MatSnackBar,
+				public authService: AuthService) {
 	}
 
 	ngOnInit() {
-		// TODO optimize uid
 		this.myDocs$ = this.docService.getMyDocsObservable(this.uid)
-
+		this.allDocs$ = this.docService.getAllDocsObservable();
 	}
 
-
-	// TODO naveden user brise samo svoje (My tab), admin lahko vse (All tab)
-	deleteEntry(doc: FireDoc) {
-		this.docService.deleteDoc(doc.id).then(() => {
+	deleteEntry(doc: any) {
+		this.docService.deleteFileAndDoc(doc.id, doc.data.imagePath).then(() => {
 			this.snackBar.open('Document deleted', 'OK', {
 				duration: 5000
 			})
