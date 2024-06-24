@@ -32,44 +32,47 @@ import {AngularFireStorageModule} from "@angular/fire/compat/storage";
 
 
 @NgModule({
-	declarations: [
-		AppComponent,
-		LoginComponent,
-		BlogComponent,
-		HomeComponent,
-		FrameComponent,
-		ButtonComponent,
-		UploadModalComponent,
-		DisplayContentComponent
-	],
-	imports: [
-		CommonModule,
-		BrowserModule,
-		ReactiveFormsModule,
-		NgbModule,
-		BrowserAnimationsModule,
-		RouterOutlet,
-		AppRoutingModule,
-		AngularFireModule.initializeApp(environment.firebase),
-		AngularFireAuthModule,
-		AngularFirestoreModule,
-		AngularFireStorageModule,
-		MatTabsModule,
-		MatFormFieldModule,
-		MatInputModule,
-		MatCardModule,
-		MatDialogModule,
-		MatSnackBarModule,
-		MatButtonModule,
-		MatTableModule,
-		MatProgressSpinnerModule,
-		MatIconModule,
-		FormsModule,
-		ReactiveFormsModule,
-		MatIconModule
-	],
-	providers: [],
-	bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        LoginComponent,
+        BlogComponent,
+        HomeComponent,
+        FrameComponent,
+        ButtonComponent,
+        UploadModalComponent,
+        DisplayContentComponent
+    ],
+    imports: [
+        CommonModule,
+        BrowserModule,
+        ReactiveFormsModule,
+        NgbModule,
+        BrowserAnimationsModule,
+        RouterOutlet,
+        AppRoutingModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireAuthModule,
+        AngularFirestoreModule,
+        AngularFireStorageModule,
+        MatTabsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatCardModule,
+        MatDialogModule,
+        MatSnackBarModule,
+        MatButtonModule,
+        MatTableModule,
+        MatProgressSpinnerModule,
+        MatIconModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatIconModule
+    ],
+    providers: [],
+    exports: [
+        ButtonComponent
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }

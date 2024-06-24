@@ -35,6 +35,7 @@
 										<app-button
 											(click)="deleteEntry(doc)"
 											[classList]="'m-2'"
+											[disabled]="inProgress$"
 										>
 											<i *ngIf="!inProgress$" class="fa-solid fa-trash-can"></i>
 										</app-button>
@@ -81,6 +82,7 @@
 											(click)="deleteEntry(doc)"
 											*ngIf="user.admin"
 											[classList]="'m-2'"
+											[disabled]="inProgress$"
 										>
 											<i *ngIf="!inProgress$" class="fa-solid fa-trash-can"></i>
 										</app-button>

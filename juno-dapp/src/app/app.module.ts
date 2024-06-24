@@ -56,8 +56,10 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 		MatButtonModule,
 		MatTooltipModule,
 		MatTableModule,
-		MatProgressSpinnerModule
-
+		MatProgressSpinnerModule,
+		MatButtonModule,
+		ReactiveFormsModule,
+		MatFormFieldModule,
 	],
 	providers: [{provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}],
 	exports: [

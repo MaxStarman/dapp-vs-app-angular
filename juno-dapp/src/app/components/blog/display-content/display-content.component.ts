@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Entry} from "../../../models/entry";
 import {Doc} from "@junobuild/core";
 import {Observable} from "rxjs";
@@ -13,10 +13,8 @@ import {AuthService} from "../../../services/auth.service";
 })
 export class DisplayContentComponent implements OnInit {
 
-	@Input()
-	isAdmin!: boolean
-
-	readonly displayedColumns: string[] = ['creator', 'text', 'url'];
+	readonly displayedColumnsMyDocs: string[] = ['text', 'url'];
+	readonly displayedColumnsAllDocs: string[] = ['creator', 'text', 'url'];
 
 	readonly allDocs$: Observable<Doc<Entry>[]> = this.docService.allDocs$;
 
@@ -24,7 +22,6 @@ export class DisplayContentComponent implements OnInit {
 
 	inProgress$: boolean = false
 
-	delDoc?: Doc<Entry>;
 
 	constructor(
 		public authService: AuthService,
@@ -34,24 +31,25 @@ export class DisplayContentComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.docService.inProgress$.subscribe(progress => {
+		this.docService.inProgressDelete$.subscribe(progress => {
 			this.inProgress$ = progress.valueOf()
 		})
 	}
 
 	deleteEntry(doc: Doc<Entry>) {
-		this.docService.inProgress$.next(true);
-		this.delDoc = doc;
+		this.docService.inProgressDelete$.next(true);
 		const imageUrl = doc.data.url;
 		const imagePath = imageUrl.replace("https://cw5ba-ciaaa-aaaal-advla-cai.icp0.io", "");
 
-		this.docService.deleteDocAndAsset(doc, imagePath, false).then(() => {
-			this.docService.inProgress$.next(false);
-			this.delDoc = undefined;
+		this.docService.deleteDocAndAsset(doc, imagePath).then(() => {
+			this.docService.inProgressDelete$.next(false);
 			this.snackBar.open('Success!', 'Dismiss', {
 					duration: 3000
 				}
 			);
+		}).catch((err) => {
+			console.error(err);
+			this.docService.inProgressDelete$.next(false);
 		})
 
 	}

@@ -54,7 +54,6 @@ export class DocService {
 	}
 
 	uploadFileAndCreateDoc(entry: Entry, file: File) {
-		// TODO upload file before creating doc
 		const path = `${Date.now()}_${file.name}`;
 		const storageRef = this.storage.ref(path);
 

@@ -9,21 +9,20 @@ import {
 	shareReplay,
 	startWith,
 	Subject,
-	switchMap,
-	take
+	switchMap
 } from "rxjs";
-import {deleteAsset, deleteDoc, Doc, listDocs, setDoc, uploadFile, User} from "@junobuild/core";
+import {deleteAsset, deleteDoc, Doc, listDocs, setDoc, uploadFile} from "@junobuild/core";
 import {AuthService} from "./auth.service";
 import {Entry} from "../models/entry";
 import {nanoid} from "nanoid";
-import {FormGroup} from "@angular/forms";
 
 @Injectable({
 	providedIn: 'root'
 })
 export class DocService {
 
-	inProgress$ = new BehaviorSubject<boolean>(false)
+	inProgressUpload$ = new BehaviorSubject<boolean>(false)
+	inProgressDelete$ = new BehaviorSubject<boolean>(false)
 
 	private reloadSubject = new Subject<void>();
 
@@ -40,7 +39,7 @@ export class DocService {
 		startWith([]),
 		shareReplay({bufferSize: 1, refCount: true})
 	);
-	// Return all documents for loged in user
+	// Return all documents for logged-in user
 	myDocs$: Observable<Doc<Entry>[]> = combineLatest([
 		this.authService.user$,
 		this.reloadSubject.pipe(startWith(undefined)),
@@ -68,99 +67,42 @@ export class DocService {
 		this.reloadSubject.next(value);
 	}
 
-	async uploadAndSetEntry(user: User, file: File | undefined, form: FormGroup, username: string) {
-		let url;
+	async uploadAndSetEntry(file: File | undefined, text: string) {
+		const key = nanoid();
 
 		if (file !== undefined) {
-			const filename = `${user.key}-${file.name}`;
+			const filename = `${Date.now()}_${file.name}`;
 
 			const {downloadUrl} = await uploadFile({
 				collection: 'images',
 				data: file,
 				filename,
-			});
+			})
 
-			url = downloadUrl;
-		}
-
-		const key = nanoid();
-
-		await setDoc({
-			collection: 'img_descriptions',
-			doc: {
-				key,
-				data: {
-					creator: username,
-					text: form.value.entry,
-					...(url !== undefined && {url}),
+			await setDoc({
+				collection: 'img_descriptions',
+				doc: {
+					key,
+					data: {
+						text: text,
+						url: downloadUrl
+					},
 				},
-			},
-		});
+			});
+		}
 	}
 
-	async deleteDocAndAsset(doc: Doc<Entry>, imgFullPath: string, admin: boolean) {
+	async deleteDocAndAsset(doc: Doc<Entry>, imgFullPath: string) {
 		await deleteDoc<Entry>({
 			collection: 'img_descriptions',
 			doc: doc
 		}).then(() => {
-			if (admin) {
-				this.checkIfLastImagesInAllDocs(imgFullPath).subscribe(deleteImg => {
-					if (deleteImg) {
-						this.deleteImageFromStorage(imgFullPath)
-					}
-				})
-			} else {
-				this.checkIfLastImagesInMyDocs(imgFullPath).subscribe(deleteImg => {
-					if (deleteImg) {
-						this.deleteImageFromStorage(imgFullPath)
-					}
-				})
-			}
-			this.reload()
+			deleteAsset({
+				collection: 'images',
+				fullPath: imgFullPath
+			});
+
 		});
-
-	}
-
-	private async deleteImageFromStorage(imgFullPath: string) {
-		await deleteAsset({
-			collection: 'images',
-			fullPath: imgFullPath
-		});
-	}
-
-	/**
-	 * Return Observable<boolean> if there is only one doc left with a specific image URL.
-	 * @param imgUrl
-	 * @private
-	 */
-	private checkIfLastImagesInMyDocs(imgUrl: string) {
-		let count = 0;
-		return this.myDocs$.pipe(
-			take(1),
-			map(docs => {
-				for (const doc of docs) {
-					if (doc.data.url && doc.data.url.endsWith(imgUrl)) {
-						count++;
-					}
-				}
-				return count === 1;
-			})
-		)
-	}
-
-	// For admin asset delete
-	private checkIfLastImagesInAllDocs(imgUrl: string) {
-		let count = 0;
-		return this.allDocs$.pipe(
-			take(1),
-			map(docs => {
-				for (const doc of docs) {
-					if (doc.data.url && doc.data.url.endsWith(imgUrl)) {
-						count++;
-					}
-				}
-				return count === 1;
-			})
-		)
+		this.reload()
 	}
 }
