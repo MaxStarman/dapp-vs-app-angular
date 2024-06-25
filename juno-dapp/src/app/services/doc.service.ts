@@ -71,12 +71,12 @@ export class DocService {
 		const key = nanoid();
 
 		if (file !== undefined) {
-			const filename = `${Date.now()}_${file.name}`;
+			const filename = `${key + Date.now()}_${file.name}`;
 
 			const {downloadUrl} = await uploadFile({
 				collection: 'images',
 				data: file,
-				filename,
+				filename
 			})
 
 			await setDoc({
@@ -96,13 +96,12 @@ export class DocService {
 		await deleteDoc<Entry>({
 			collection: 'img_descriptions',
 			doc: doc
-		}).then(() => {
-			deleteAsset({
-				collection: 'images',
-				fullPath: imgFullPath
-			});
-
+		})
+		await deleteAsset({
+			collection: 'images',
+			fullPath: imgFullPath
 		});
+
 		this.reload()
 	}
 }
