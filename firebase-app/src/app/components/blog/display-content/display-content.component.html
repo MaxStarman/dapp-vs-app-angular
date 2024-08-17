@@ -15,10 +15,16 @@
 							<ng-container matColumnDef="text">
 								<th *matHeaderCellDef mat-header-cell>Text</th>
 								<td *matCellDef="let doc" mat-cell>
+									{{ doc.data.text }}
+								</td>
+							</ng-container>
+
+							<ng-container matColumnDef="url">
+								<th *matHeaderCellDef mat-header-cell>Url</th>
+								<td *matCellDef="let doc" mat-cell>
 									<div
 										class="d-flex justify-content-between align-items-center"
 									>
-										{{ doc.data.text }}
 										<a
 											[href]="doc.data.url"
 											aria-label="Open data"
@@ -31,6 +37,7 @@
 												fontIcon="open_in_new"
 											></mat-icon>
 										</a>
+
 
 										<app-button
 											(click)="deleteEntry(doc)"
@@ -62,10 +69,16 @@
 							<ng-container matColumnDef="text">
 								<th *matHeaderCellDef mat-header-cell>Text</th>
 								<td *matCellDef="let doc" mat-cell>
+									{{ doc.data.text }}
+								</td>
+							</ng-container>
+
+							<ng-container matColumnDef="url">
+								<th *matHeaderCellDef mat-header-cell>Url</th>
+								<td *matCellDef="let doc" mat-cell>
 									<div
 										class="d-flex justify-content-between align-items-center"
 									>
-										{{ doc.data.text }}
 										<a
 											[href]="doc.data.url"
 											aria-label="Open data"

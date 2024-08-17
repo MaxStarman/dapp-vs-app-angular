@@ -29,14 +29,4 @@ export class AuthService {
 			}
 		)
 	}
-
-	get userId() {
-		let userId = '';
-		this.user$.subscribe((user) => {
-			if (user) {
-				userId = user?.key.toString()
-			}
-		})
-		return userId;
-	}
 }

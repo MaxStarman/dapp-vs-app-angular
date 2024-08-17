@@ -3,7 +3,6 @@ import {BrowserModule} from '@angular/platform-browser';
 import {AppComponent} from './app.component';
 import {LoginComponent} from './components/login/login.component';
 import {CommonModule} from '@angular/common';
-import {ReactiveFormsModule} from '@angular/forms';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {RouterLink, RouterOutlet} from '@angular/router';
 import {BlogComponent} from './components/blog/blog.component';
@@ -25,6 +24,7 @@ import {MatTableModule} from "@angular/material/table";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {ButtonComponent} from "./components/button/button.component";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
 	declarations: [
@@ -58,7 +58,6 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 		MatTableModule,
 		MatProgressSpinnerModule,
 		MatButtonModule,
-		ReactiveFormsModule,
 		MatFormFieldModule,
 	],
 	providers: [{provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}],

@@ -8,7 +8,6 @@ import {environment} from "../env/environment";
 import {RouterOutlet} from "@angular/router";
 import {AppRoutingModule} from "./app-routing.module";
 import {CommonModule} from "@angular/common";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {LoginComponent} from './components/login/login.component';
 import {BlogComponent} from './components/blog/blog.component';
 import {HomeComponent} from './components/home/home.component';
@@ -29,6 +28,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {AngularFireAuthModule} from "@angular/fire/compat/auth";
 import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
 import {AngularFireStorageModule} from "@angular/fire/compat/storage";
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -64,8 +64,6 @@ import {AngularFireStorageModule} from "@angular/fire/compat/storage";
         MatTableModule,
         MatProgressSpinnerModule,
         MatIconModule,
-        FormsModule,
-        ReactiveFormsModule,
         MatIconModule
     ],
     providers: [],
