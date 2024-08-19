@@ -1,29 +1,18 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthService} from "../../services/auth.service";
-import {InternetIdentityProvider, NFIDProvider, signIn, signOut} from '@junobuild/core';
-import {UserData} from "../../models/userData";
+import {InternetIdentityProvider, NFIDProvider, signIn} from '@junobuild/core';
 import {Router} from "@angular/router";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
 	selector: 'app-login',
 	templateUrl: './login.component.html',
 	styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
-
-	// readonly signOut = signOut;
-	// readonly signIn = signIn;
-
-	userLoginForm!: FormGroup
-	userModel: UserData = {uid: '', username: '', admin: false};
+export class LoginComponent {
 
 	constructor(
 		public authService: AuthService,
-		private router: Router,
-		private fb: FormBuilder,
-		public snackBar: MatSnackBar
+		private router: Router
 	) {
 	}
 
@@ -33,7 +22,6 @@ export class LoginComponent implements OnInit {
 		})
 	}).then(() => {
 		console.log('ii sign in')
-		this.checkUserStatus()
 	}).catch(err => {
 		console.error(err)
 	});
@@ -43,48 +31,13 @@ export class LoginComponent implements OnInit {
 			logoUrl: ""
 		})
 	}).then(() => {
-		this.checkUserStatus()
+		console.log('nfID sign in')
 	}).catch(err => {
 		console.error(err)
 	});
-
-	ngOnInit() {
-		this.setFormControls()
-	}
-
-	async checkUserStatus() {
-		this.userModel = this.userLoginForm.value;
-		this.userModel.uid = this.authService.userId;
-		this.userModel.admin = false;
-
-		this.authService.getUserDoc(this.userModel.uid).then((user) => {
-			// check for the same username
-			if (user && user.data.username != this.userModel.username) {
-				// singOut if is not the same as in DB
-				signOut()
-				this.userLoginForm.reset()
-				this.snackBar.open('Wrong username', 'Dismiss', {
-					panelClass: ['error'],
-					duration: 3000
-				})
-			} else {
-				// add user to db
-				if (!user) {
-					this.authService.setUserDoc(this.userModel)
-				}
-				this.authService.username$.next(this.userModel.username)
-				// this.navigateToBlog()
-			}
-		})
-	}
 
 	navigateToBlog() {
 		this.router?.navigate(['/blog']);
 	}
 
-	private setFormControls() {
-		this.userLoginForm = this.fb.group({
-			username: [this.userModel.username, Validators.required]
-		});
-	}
 }

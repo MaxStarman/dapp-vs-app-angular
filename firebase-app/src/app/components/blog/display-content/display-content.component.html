@@ -15,10 +15,16 @@
 							<ng-container matColumnDef="text">
 								<th *matHeaderCellDef mat-header-cell>Text</th>
 								<td *matCellDef="let doc" mat-cell>
+									{{ doc.data.text }}
+								</td>
+							</ng-container>
+
+							<ng-container matColumnDef="url">
+								<th *matHeaderCellDef mat-header-cell>Url</th>
+								<td *matCellDef="let doc" mat-cell>
 									<div
 										class="d-flex justify-content-between align-items-center"
 									>
-										{{ doc.data.text }}
 										<a
 											[href]="doc.data.url"
 											aria-label="Open data"
@@ -32,9 +38,11 @@
 											></mat-icon>
 										</a>
 
+
 										<app-button
 											(click)="deleteEntry(doc)"
 											[classList]="'m-2'"
+											[disabled]="inProgress$"
 										>
 											<i *ngIf="!inProgress$" class="fa-solid fa-trash-can"></i>
 										</app-button>
@@ -61,10 +69,16 @@
 							<ng-container matColumnDef="text">
 								<th *matHeaderCellDef mat-header-cell>Text</th>
 								<td *matCellDef="let doc" mat-cell>
+									{{ doc.data.text }}
+								</td>
+							</ng-container>
+
+							<ng-container matColumnDef="url">
+								<th *matHeaderCellDef mat-header-cell>Url</th>
+								<td *matCellDef="let doc" mat-cell>
 									<div
 										class="d-flex justify-content-between align-items-center"
 									>
-										{{ doc.data.text }}
 										<a
 											[href]="doc.data.url"
 											aria-label="Open data"
@@ -81,6 +95,7 @@
 											(click)="deleteEntry(doc)"
 											*ngIf="user.admin"
 											[classList]="'m-2'"
+											[disabled]="inProgress$"
 										>
 											<i *ngIf="!inProgress$" class="fa-solid fa-trash-can"></i>
 										</app-button>

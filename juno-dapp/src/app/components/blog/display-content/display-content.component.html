@@ -5,11 +5,6 @@
 			<mat-tab label="My documents">
 				<div class="container mt-3 mb-3">
 					<table [dataSource]="(myDocs$ | async)!" mat-table>
-						<ng-container matColumnDef="creator">
-							<th *matHeaderCellDef mat-header-cell>Creator</th>
-							<td *matCellDef="let doc" mat-cell>{{ doc.data.creator }}</td>
-						</ng-container>
-
 						<ng-container matColumnDef="text">
 							<th *matHeaderCellDef mat-header-cell>Text</th>
 							<td *matCellDef="let doc" mat-cell>{{ doc.data.text }}</td>
@@ -36,6 +31,7 @@
 									<app-button
 										(click)="deleteEntry(doc)"
 										[classList]="'m-2'"
+										[disabled]="inProgress$"
 									>
 										<ng-container *ngIf="!inProgress$; else loader">
 											<i class="fa-solid fa-trash-can"></i>
@@ -46,8 +42,8 @@
 							</td>
 						</ng-container>
 
-						<tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-						<tr *matRowDef="let doc; columns: displayedColumns" mat-row></tr>
+						<tr *matHeaderRowDef="displayedColumnsMyDocs" mat-header-row></tr>
+						<tr *matRowDef="let doc; columns: displayedColumnsMyDocs" mat-row></tr>
 					</table>
 				</div>
 			</mat-tab>
@@ -55,8 +51,8 @@
 				<div class="container mt-3 mb-3">
 					<table [dataSource]="(allDocs$ | async)!" mat-table>
 						<ng-container matColumnDef="creator">
-							<th *matHeaderCellDef mat-header-cell>Creator</th>
-							<td *matCellDef="let doc" mat-cell>{{ doc.data.creator }}</td>
+							<th *matHeaderCellDef mat-header-cell>CreatorID</th>
+							<td *matCellDef="let doc" mat-cell>{{ doc.owner }}</td>
 						</ng-container>
 
 						<ng-container matColumnDef="text">
@@ -84,8 +80,9 @@
 									</a>
 									<app-button
 										(click)="deleteEntry(doc)"
-										*ngIf="isAdmin"
+										*ngIf="authService.isAdmin"
 										[classList]="'m-2'"
+										[disabled]="inProgress$"
 									>
 										<ng-container *ngIf="!inProgress$; else loader">
 											<i class="fa-solid fa-trash-can"></i>
@@ -96,8 +93,8 @@
 							</td>
 						</ng-container>
 
-						<tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-						<tr *matRowDef="let doc; columns: displayedColumns" mat-row></tr>
+						<tr *matHeaderRowDef="displayedColumnsAllDocs" mat-header-row></tr>
+						<tr *matRowDef="let doc; columns: displayedColumnsAllDocs" mat-row></tr>
 					</table>
 				</div>
 			</mat-tab>

@@ -5,12 +5,21 @@
 		<form [formGroup]="uploadForm">
 			<mat-form-field>
 				<mat-label>Description</mat-label>
-				<textarea formControlName="entry" matInput rows="1"></textarea>
+				<textarea formControlName="text" matInput rows="1"></textarea>
+				<mat-error
+					*ngIf="uploadForm.controls?.['text']?.errors && uploadForm.controls?.['text']?.touched">
+					Required.
+				</mat-error>
 			</mat-form-field>
-			<input (change)="onFileChanged($event)"
+			<button (click)="fileInput.click()" mat-raised-button type="button">Choose File</button>
+			<input #fileInput
+				   (change)="onFileSelected($event)"
 				   accept="image/png, image/gif, image/jpeg"
 				   formControlName="fileInput"
+				   hidden
+				   id="file"
 				   type="file">
+			<span class="ms-3">{{ file?.name }}</span>
 		</form>
 	</mat-dialog-content>
 

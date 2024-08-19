@@ -1,11 +1,9 @@
-<ng-container *ngIf="authService.currentUser$ | async as currUser else loading">
+<ng-container *ngIf="authService.signedIn$ | async else loading">
 	<div class="container">
 		<h1>
-			Welcome <b>{{ currUser.data.username }}</b>. <br>
-			You are logged in as
-			<b *ngIf="currUser.data.admin">admin</b>
-			<b *ngIf="!currUser.data.admin">user</b>
-			with ID <b>{{ currUser.data.uid }}</b>.
+			Welcome <b *ngIf="authService.isAdmin">admin </b>
+			<b *ngIf="!(authService.isAdmin)">user </b>
+			with id <b>{{ authService.userKey }}.</b>
 		</h1>
 	</div>
 
@@ -17,9 +15,7 @@
 		</app-button>
 	</div>
 
-	<display-content
-		[isAdmin]="currUser.data.admin"
-	></display-content>
+	<display-content></display-content>
 </ng-container>
 
 <ng-template #loading>

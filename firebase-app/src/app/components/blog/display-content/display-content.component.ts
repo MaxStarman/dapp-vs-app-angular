@@ -14,7 +14,7 @@ export class DisplayContentComponent implements OnInit {
 	@Input()
 	uid!: string;
 
-	readonly displayedColumns: string[] = ['creator', 'text'];
+	readonly displayedColumns: string[] = ['creator', 'text', 'url'];
 
 	allDocs$!: Observable<any>
 

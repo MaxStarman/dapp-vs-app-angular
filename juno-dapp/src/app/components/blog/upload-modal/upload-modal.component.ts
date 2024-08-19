@@ -1,9 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {User} from "@junobuild/core";
-import {AuthService} from "../../../services/auth.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {FormBuilder, Validators} from "@angular/forms";
-import {catchError, filter, from, NEVER, switchMap, take} from "rxjs";
 import {DocService} from "../../../services/doc.service";
 import {MatDialogRef} from "@angular/material/dialog";
 
@@ -15,17 +12,16 @@ import {MatDialogRef} from "@angular/material/dialog";
 export class UploadModalComponent implements OnInit {
 
 	uploadForm = this.formBuilder.group({
-		entry: '',
+		text: ['', Validators.required],
 		fileInput: ['', Validators.required]
 	});
 
 	inProgress$: boolean = false;
 
-	private file: File | undefined;
+	file: File | undefined;
 
 	constructor(
 		private dialogRef: MatDialogRef<UploadModalComponent>,
-		private authService: AuthService,
 		private docService: DocService,
 		private formBuilder: FormBuilder,
 		public snackBar: MatSnackBar
@@ -33,44 +29,34 @@ export class UploadModalComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.docService.inProgress$.subscribe(progress => {
+		this.docService.inProgressUpload$.subscribe(progress => {
 			this.inProgress$ = progress.valueOf()
 		})
 	}
 
 	async onSubmit() {
 		if (this.uploadForm.valid) {
-			this.docService.inProgress$.next(true);
+			this.docService.inProgressUpload$.next(true);
 			this.uploadForm.disable()
-			this.authService.currentUser$
-				.pipe(
-					filter((user) => user !== null),
-					switchMap((user) => from(
-						this.docService.uploadAndSetEntry(user as User, this.file, this.uploadForm, user!!.data.username))),
-					take(1),
-					catchError((err: unknown) => {
-						console.error(err);
-
-						this.snackBar.open('Error', 'Dismiss', {
-							panelClass: ['error'],
-							duration: 3000
-						});
-
-						this.uploadForm.enable();
-						return NEVER;
-					})
-				)
-				.subscribe(() => {
-					this.closeModal('Save clicked')
-					this.docService.inProgress$.next(false)
-					this.snackBar.open('Success!', 'Dismiss', {
-						duration: 3000
-					});
+			this.docService.uploadAndSetEntry(this.file, this.uploadForm.value.text!).then((res) => {
+				this.closeModal('Save clicked')
+				this.docService.inProgressUpload$.next(false)
+				this.snackBar.open('Success!', 'Dismiss', {
+					duration: 3000
 				});
+			}).catch((err) => {
+				console.error(err)
+
+				this.snackBar.open('Error', 'Dismiss', {
+					panelClass: ['error'],
+					duration: 3000
+				});
+				this.uploadForm.enable();
+			})
 		}
 	}
 
-	async onFileChanged($event: Event) {
+	async onFileSelected($event: Event) {
 		const target = $event.target as HTMLInputElement;
 		this.file = target.files?.[0];
 	}
@@ -78,6 +64,5 @@ export class UploadModalComponent implements OnInit {
 	closeModal(result?: string) {
 		this.dialogRef.close(result)
 	}
-
 
 }
